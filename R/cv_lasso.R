@@ -7,8 +7,6 @@
 #
 ###################################################################################################
 source("R/coeff_lasso.R")
-library(glmnet)
-library(LPCM)
 
 #' Cross-validation Tools
 
@@ -196,66 +194,8 @@ cv.ex.1 = function()
   cv.plot(e,m[1,], main = "LASSO using co-ordinate descent")
   lasso.plot(m, e)
   
-  data.fit = glmnet(x, y, alpha=1, family="gaussian")
-  x11()
-  plot(data.fit, xvar="lambda",
-       xlab=expression(paste(log(lambda))))
-  abline(h=0, col="black", lty=2)
-  
-  data.cv = cv.glmnet(x, y, alpha=1, family="gaussian")
-  cv_data<-coef(data.cv, s = "lambda.min")
-  x11()
-  plot(data.cv, xlab=expression(paste(log(lambda))))
-  abline(v=log(data.cv$lambda.min), col="black")
-  
   cat(sprintf("Least Square Model \n"))
   print(lm(y~x-1))
-  
-  coef_lasso<-m[,max(which(colMeans(e)==min(colMeans(e))))]
-  
-  cat(sprintf("LASSO estimates \n"))
-  prmatrix(t(coef_lasso[-1]),rowlab = rep("",1))
-}
-
-#' @export
-cv.ex.2<-function()
-{
-  
-  ## Gaia Dataset
-  cat(sprintf("\nGaia Dataset: 16 predictors and 150 observation, no of fold is 5.\n\n"))
-  
-  data("gaia")
-  ind<-sample(1:nrow(gaia),150)
-  x<-as.matrix(gaia[ind,5:20])
-  y<-as.matrix(gaia[ind,4])
-  d<-normalize(x,y)
-  x<-d$x
-  y<-d$y
-  beta0 = rep(0,ncol(x))
-  ts = opt_ts(0.1, 1000, 1000)
-  lambdas<-exp(seq(-5,2,0.1))
-  second.test.cv<-cv.lasso(lambdas, x, y, beta0, ts, method = lasso_pg)
-  m<-second.test.cv$cv.model
-  e<-second.test.cv$cv.error
-  cv.plot(e,m[1,], main = "LASSO using proximal gradient")
-  lasso.plot(m, e)
-  
-  # comparison with glmnet
-  
-  library(glmnet)
-  data.fit1 = glmnet(x, y, alpha=1, family="gaussian")
-  x11()
-  plot(data.fit1, xvar="lambda",
-       xlab=expression(paste(log(lambda))))
-  abline(h=0, col="black", lty=2)
-  
-  data.cv1 = cv.glmnet(x, y, alpha=1, family="gaussian")
-  cv_data1<-coef(data.cv1, s = "lambda.min")
-  x11()
-  plot(data.cv1, xlab=expression(paste(log(lambda))))
-  
-  cat(sprintf("Least Square Model \n"))
-  print(lm(y~x))
   
   coef_lasso<-m[,max(which(colMeans(e)==min(colMeans(e))))]
   
