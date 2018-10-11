@@ -2,7 +2,7 @@ Package: bootlasso
 Title: Boot-strap Method for LASSO
 Version: 0.0.0.9000
 Authors@R: person("Tathagata", "Basu", email = "tathagata.basu@durham.ac.uk", role = c("aut", "cre"))
-Authors@R: person("M.C.M.". "Troffaes")
+Authors@R: person("M.C.M.", "Troffaes")
 Description: Boot strap method for LASSO using different optimization techniques.
 Depends: R (>= 3.4.4)
 License: What license is it under?
