@@ -6,6 +6,17 @@
 \usage{
 lasso_pg(lambdas, x, y, beta0, ts)
 }
+\arguments{
+\item{x}{Predictors}
+
+\item{y}{Response}
+
+\item{beta0}{Initial guess of the regression coefficients}
+
+\item{ts}{Stepsize for optimization method}
+
+\item{lambda}{Values of the penalty term}
+}
 \description{
 Coefficient path (pg)
 }

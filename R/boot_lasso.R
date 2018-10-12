@@ -1,9 +1,9 @@
 #' Bootstrap for LASSO.
 #'
-#' @param lambdas values of lambda
+#' @param lambdas values of the penalty parameter
 #' @param x Predictors 
 #' @param y Response
-#' @param beta0 Initial guess of beta
+#' @param beta0 Initial guess of regression co-efficients
 #' @param ts Stepsize for proximal gradient and sub-gradient method. Use opt_ts() to create your own.
 #' @param method Optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg)
 #' @param k No. of folds for cross-validation. Default value is 5.

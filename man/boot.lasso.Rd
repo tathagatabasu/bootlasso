@@ -4,25 +4,25 @@
 \alias{boot.lasso}
 \title{Bootstrap for LASSO.}
 \usage{
-boot.lasso(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = 0.1,
-  method = lasso_cd, k = 5, n.sim = 100)
+boot.lasso(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1,
+  1000, 1000), method = lasso_cd, k = 5, n.sim = 500)
 }
 \arguments{
-\item{lambdas}{values of lambda}
+\item{lambdas}{values of the penalty parameter}
 
 \item{x}{Predictors}
 
 \item{y}{Response}
 
-\item{beta0}{Initial guess of beta}
+\item{beta0}{Initial guess of regression co-efficients}
 
-\item{ts}{Stepsize}
+\item{ts}{Stepsize for proximal gradient and sub-gradient method. Use opt_ts() to create your own.}
 
-\item{method}{Optimization method}
+\item{method}{Optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg)}
 
-\item{k}{No. of folds}
+\item{k}{No. of folds for cross-validation. Default value is 5.}
 
-\item{n.sim}{No. of bootstrap replicates}
+\item{n.sim}{No. of bootstrap replicates. Default is 500.}
 }
 \description{
 Bootstrap for LASSO.

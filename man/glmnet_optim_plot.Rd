@@ -6,6 +6,13 @@
 \usage{
 glmnet_optim_plot(lambdas, x, y)
 }
+\arguments{
+\item{x}{Predictors}
+
+\item{y}{Response}
+
+\item{lambda}{Values of the penalty term}
+}
 \description{
 glmnet plot
 }

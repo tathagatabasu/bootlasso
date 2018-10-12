@@ -9,7 +9,7 @@
 # 11 Oct 2018
 ###########################################################################
 #source("R/opt_lasso.R")
-library(glmnet)
+require(glmnet)
 
 #' OLS term
 #' @export
@@ -49,6 +49,11 @@ square_lasso_df = function(lambda, x, y, beta)
   square_df(x, y, beta) + lasso_df(lambda, beta)
 
 #' LASSO optimization (sub-gradient method)
+#' @param lambda Penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
+#' @param ts Stepsize for optimization method
 #' @export
 lasso_optim_sg = function(lambda, x, y, beta0, ts) {
   f = function(beta) square_lasso_f(lambda, x, y, beta)
@@ -57,6 +62,11 @@ lasso_optim_sg = function(lambda, x, y, beta0, ts) {
 }
 
 #' LASSO optimization (proximal gradient)
+#' @param lambda Penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
+#' @param ts Stepsize for optimization method
 #' @export
 lasso_optim_pg = function(lambda, x, y, beta0, ts) {
   f = function(beta) square_f(x, y, beta)
@@ -67,6 +77,10 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts) {
 }
 
 #' LASSO optimization using coordinate descent
+#' @param lambda Penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
 #' @export
 lasso_optim_cd = function(lambda, x, y, beta0, ...){
   s = soft(lambda)
@@ -78,6 +92,11 @@ lasso_optim_cd = function(lambda, x, y, beta0, ...){
 }
 
 #' Coefficient path (sg)
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
+#' @param ts Stepsize for optimization method
 #' @export
 lasso_sg = function(lambdas, x, y, beta0, ts) {
   betas = lapply(lambdas, function(lambda) lasso_optim_sg(lambda, x, y, beta0, ts))
@@ -85,6 +104,11 @@ lasso_sg = function(lambdas, x, y, beta0, ts) {
 }
 
 #' Coefficient path (pg)
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
+#' @param ts Stepsize for optimization method
 #' @export
 lasso_pg = function(lambdas, x, y, beta0, ts) {
   betas = lapply(lambdas, function(lambda) lasso_optim_pg(lambda, x, y, beta0, ts))
@@ -92,6 +116,10 @@ lasso_pg = function(lambdas, x, y, beta0, ts) {
 }
 
 #' Coefficient path (cd)
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
 #' @export
 lasso_cd = function(lambdas, x, y, beta0, ...){
   betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0))
@@ -99,6 +127,11 @@ lasso_cd = function(lambdas, x, y, beta0, ...){
 }
 
 #' sg Plot
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
+#' @param ts Stepsize for optimization method
 #' @export
 lasso_sg_plot = function(lambdas, x, y, beta0, ts) {
   betas = lasso_sg(lambdas, x, y, beta0, ts)
@@ -110,6 +143,11 @@ lasso_sg_plot = function(lambdas, x, y, beta0, ts) {
 }
 
 #' pg plot
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
+#' @param ts Stepsize for optimization method
 #' @export
 lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
   betas = lasso_pg(lambdas, x, y, beta0, ts)
@@ -121,6 +159,10 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
 }
 
 #' cd plot
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
+#' @param beta0 Initial guess of the regression coefficients
 #' @export
 lasso_cd_plot = function(lambdas, x, y, beta0, ...) {
   betas = lasso_cd(lambdas, x, y, beta0, ts)
@@ -132,6 +174,9 @@ lasso_cd_plot = function(lambdas, x, y, beta0, ...) {
 }
 
 #' glmnet plot
+#' @param lambda Values of the penalty term
+#' @param x Predictors
+#' @param y Response
 #' @export
 glmnet_optim_plot = function(lambdas, x, y) {
   glmfit = glmnet(x, y, alpha=1, family="gaussian")
@@ -141,7 +186,7 @@ glmnet_optim_plot = function(lambdas, x, y) {
   abline(h=0, col="black", lty=2)
 }
 
-#' Examples
+#' Examples 1
 #' @export
 lasso_test_1 = function() {
   x = matrix(data = rnorm(9000), ncol = 3)
@@ -156,6 +201,7 @@ lasso_test_1 = function() {
   lasso_cd_plot(lambdas, x, y, beta0, ts)
   glmnet_optim_plot(lambdas, x, y)
 }
+#' Examples 2
 #' @export
 lasso_test_2 = function()
 {

@@ -6,6 +6,17 @@
 \usage{
 lasso_optim_sg(lambda, x, y, beta0, ts)
 }
+\arguments{
+\item{lambda}{Penalty term}
+
+\item{x}{Predictors}
+
+\item{y}{Response}
+
+\item{beta0}{Initial guess of the regression coefficients}
+
+\item{ts}{Stepsize for optimization method}
+}
 \description{
 LASSO optimization (sub-gradient method)
 }

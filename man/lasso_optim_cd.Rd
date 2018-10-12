@@ -6,6 +6,15 @@
 \usage{
 lasso_optim_cd(lambda, x, y, beta0, ...)
 }
+\arguments{
+\item{lambda}{Penalty term}
+
+\item{x}{Predictors}
+
+\item{y}{Response}
+
+\item{beta0}{Initial guess of the regression coefficients}
+}
 \description{
 LASSO optimization using coordinate descent
 }
