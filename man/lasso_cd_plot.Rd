@@ -7,13 +7,13 @@
 lasso_cd_plot(lambdas, x, y, beta0, ...)
 }
 \arguments{
+\item{lambdas}{Values of the penalty term}
+
 \item{x}{Predictors}
 
 \item{y}{Response}
 
 \item{beta0}{Initial guess of the regression coefficients}
-
-\item{lambda}{Values of the penalty term}
 }
 \description{
 cd plot

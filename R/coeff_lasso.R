@@ -38,6 +38,11 @@ lasso_p = function(lambda) function(t, x) sign(x) * pmax(0, abs(x) - lambda * t)
 #' @export
 soft  = function(lambda)function(x) sign(x) * max(0, abs(x) - lambda)
 
+#' CD LASSO Soft Threshold term
+#' @export
+st_f = function(i, x, y, beta)
+  t(x[,i])%*%(y-x[,-i]%*%beta[-i])/(t(x[,i])%*%x[,i])
+
 #' LASSO objective
 #' @export
 square_lasso_f = function(lambda, x, y, beta)
@@ -82,13 +87,11 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts) {
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
 #' @export
-lasso_optim_cd = function(lambda, x, y, beta0, ...){
+lasso_optim_cd = function(lambda, x, y, beta0, ts){
   s = soft(lambda)
-  betas = beta0
-  for (i in 1:ncol(x)) {
-    betas[i]=s(t(x[,i])%*%(y-x[,-i]%*%betas[-i])/(t(x[,i])%*%x[,i]))
-  }
-  return(betas)
+  f = function(beta) square_lasso_f(lambda, x, y, beta)
+  v = function(i, beta) st_f(i, x, y, beta)
+  cd_optim(x=beta0, f=f, v=v, s=s, ts=ts)
 }
 
 #' Coefficient path (sg)
@@ -121,8 +124,8 @@ lasso_pg = function(lambdas, x, y, beta0, ts) {
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
 #' @export
-lasso_cd = function(lambdas, x, y, beta0, ...){
-  betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0))
+lasso_cd = function(lambdas, x, y, beta0, ts){
+  betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0, ts))
   return(betas)
 }
 

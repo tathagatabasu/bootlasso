@@ -4,16 +4,16 @@
 \alias{lasso_cd}
 \title{Coefficient path (cd)}
 \usage{
-lasso_cd(lambdas, x, y, beta0, ...)
+lasso_cd(lambdas, x, y, beta0, ts)
 }
 \arguments{
+\item{lambdas}{Values of the penalty term}
+
 \item{x}{Predictors}
 
 \item{y}{Response}
 
 \item{beta0}{Initial guess of the regression coefficients}
-
-\item{lambda}{Values of the penalty term}
 }
 \description{
 Coefficient path (cd)

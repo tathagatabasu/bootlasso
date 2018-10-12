@@ -4,7 +4,7 @@
 \alias{lasso_optim_cd}
 \title{LASSO optimization using coordinate descent}
 \usage{
-lasso_optim_cd(lambda, x, y, beta0, ...)
+lasso_optim_cd(lambda, x, y, beta0, ts)
 }
 \arguments{
 \item{lambda}{Penalty term}

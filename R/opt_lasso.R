@@ -42,9 +42,41 @@ sg_optim = function(x, f, df, ts) {
 #' @export
 
 pg_optim = function(x, f, df, g, p, ts) {
+  fx = f(x)
+  x.best = x
+  fx.best = fx
   for (t in ts) x = p(t, x - t * df(x))
   x
 }
+
+#' Co-ordinate descent optimization.
+#' 
+#' @param x Starting value.
+#' @param f Function to optimize.
+#' @param df Any subgradient of f.
+#' @param ts Sequence of step sizes.
+#' @export
+
+cd_optim = function(x, f, v, s, ts) {
+  fx = f(x)
+  x.best = x
+  fx.best = fx
+  for (j in 1:length(ts)) {
+    fx.last = fx.best
+    for(i in 1:length(x)) {
+      x[i] = s(v(i,x))
+    }
+    fx = f(x)
+    if(fx < fx.best) {
+      x.best = x
+      fx.best = fx
+    }
+    if(abs(fx.last-fx)<0.00001)
+      break
+  }
+  x.best
+}
+
 
 #' Generate a sequence of step sizes for optimization.
 #' 
