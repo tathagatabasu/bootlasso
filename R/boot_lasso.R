@@ -4,13 +4,13 @@
 #' @param x Predictors 
 #' @param y Response
 #' @param beta0 Initial guess of beta
-#' @param ts Stepsize
-#' @param method Optimization method
-#' @param k No. of folds
-#' @param n.sim No. of bootstrap replicates
+#' @param ts Stepsize for proximal gradient and sub-gradient method. Use opt_ts() to create your own.
+#' @param method Optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg)
+#' @param k No. of folds for cross-validation. Default value is 5.
+#' @param n.sim No. of bootstrap replicates. Default is 500.
 #' @export
 
-boot.lasso<-function(lambdas, x, y, beta0=rep(0, ncol(x)), ts=0.1, method=lasso_cd, k=5, n.sim=100){
+boot.lasso<-function(lambdas, x, y, beta0=rep(0, ncol(x)), ts = opt_ts(0.1, 1000, 1000), method = lasso_cd, k=5, n.sim=500){
 
   #-----------------------------------------------------------------------------
   # Main funtion
