@@ -4,14 +4,14 @@
 \alias{cd_optim}
 \title{Co-ordinate descent optimization.}
 \usage{
-cd_optim(x, f, v, s, ts)
+cd_optim(x, f, v, s, n_it)
 }
 \arguments{
 \item{x}{Starting value.}
 
 \item{f}{Function to optimize.}
 
-\item{ts}{Sequence of step sizes.}
+\item{n_it}{Number of iterations. Default value 100}
 
 \item{df}{Any subgradient of f.}
 }

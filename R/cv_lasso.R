@@ -6,7 +6,6 @@
 # 11 Oct 2018
 #
 ###################################################################################################
-#source("R/coeff_lasso.R")
 
 #' Cross-validation Tools
 
@@ -16,12 +15,13 @@
 #' @param x predictors
 #' @param y response
 #' @param beta0 initial guess of beta
-#' @param ts sequence of stepsize
+#' @param ts sequence of stepsize (for lasso_sg, lasso_pg)
 #' @param method lasso optimization function
 #' @param k number of fold
+#' @param n_it number of iteration for lasso_cd method
 #' @export
 
-cv.lasso<-function(lambda, x, y, beta0, ts, method, k=5)
+cv.lasso<-function(lambda, x, y, beta0, ts, method, k=5, n_it=100)
 {
   
   data.partition<-cv.random.partition(x, y, k=k)
@@ -33,7 +33,7 @@ cv.lasso<-function(lambda, x, y, beta0, ts, method, k=5)
     traindata<-as.matrix(apply(data.partition[,,-i], 2, rbind))
     x<-traindata[,2:ncol(traindata)]
     y<-traindata[,1]
-    model<-method(lambda, x, y, beta0, ts)
+    model<-method(lambda, x, y, beta0, ts, n_it=n_it)
   }
   model<-sapply(1:k,cv.train, simplify = "array")
   model<-array(unlist(model), dim = c(ncol(x), length(lambda), k))

@@ -4,7 +4,7 @@
 \alias{lasso_pg}
 \title{Coefficient path (pg)}
 \usage{
-lasso_pg(lambdas, x, y, beta0, ts)
+lasso_pg(lambdas, x, y, beta0, ts, ...)
 }
 \arguments{
 \item{lambdas}{Values of the penalty term}

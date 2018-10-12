@@ -5,6 +5,9 @@
 # Matthias C. M. Troffaes
 # 10 Oct 2018
 #
+# Additions : Tathagata Basu
+# 11 Oct 2018
+#
 ###########################################################################
 
 #' Subgradient optimization.
@@ -54,14 +57,14 @@ pg_optim = function(x, f, df, g, p, ts) {
 #' @param x Starting value.
 #' @param f Function to optimize.
 #' @param df Any subgradient of f.
-#' @param ts Sequence of step sizes.
+#' @param n_it Number of iterations. Default value 100
 #' @export
 
-cd_optim = function(x, f, v, s, ts) {
+cd_optim = function(x, f, v, s, n_it) {
   fx = f(x)
   x.best = x
   fx.best = fx
-  for (j in 1:length(ts)) {
+  for (j in 1:n_it) {
     fx.last = fx.best
     for(i in 1:length(x)) {
       x[i] = s(v(i,x))

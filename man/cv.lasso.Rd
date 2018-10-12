@@ -5,7 +5,7 @@
 \title{Cross-validation Tools
 cross-validation}
 \usage{
-cv.lasso(lambda, x, y, beta0, ts, method, k = 5)
+cv.lasso(lambda, x, y, beta0, ts, method, k = 5, n_it = 100)
 }
 \arguments{
 \item{lambda}{penalty parameter}
@@ -16,11 +16,13 @@ cv.lasso(lambda, x, y, beta0, ts, method, k = 5)
 
 \item{beta0}{initial guess of beta}
 
-\item{ts}{sequence of stepsize}
+\item{ts}{sequence of stepsize (for lasso_sg, lasso_pg)}
 
 \item{method}{lasso optimization function}
 
 \item{k}{number of fold}
+
+\item{n_it}{number of iteration for lasso_cd method}
 }
 \description{
 Cross-validation Tools

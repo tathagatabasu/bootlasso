@@ -8,8 +8,6 @@
 # Additions : Tathagata Basu
 # 11 Oct 2018
 ###########################################################################
-#source("R/opt_lasso.R")
-require(glmnet)
 
 #' OLS term
 #' @export
@@ -86,12 +84,13 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts) {
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
+#' @param n_it Number of iterations. Default value 100
 #' @export
-lasso_optim_cd = function(lambda, x, y, beta0, ts){
+lasso_optim_cd = function(lambda, x, y, beta0, n_it=100){
   s = soft(lambda)
   f = function(beta) square_lasso_f(lambda, x, y, beta)
   v = function(i, beta) st_f(i, x, y, beta)
-  cd_optim(x=beta0, f=f, v=v, s=s, ts=ts)
+  cd_optim(x=beta0, f=f, v=v, s=s, n_it=n_it)
 }
 
 #' Coefficient path (sg)
@@ -101,7 +100,7 @@ lasso_optim_cd = function(lambda, x, y, beta0, ts){
 #' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @export
-lasso_sg = function(lambdas, x, y, beta0, ts) {
+lasso_sg = function(lambdas, x, y, beta0, ts, ...) {
   betas = lapply(lambdas, function(lambda) lasso_optim_sg(lambda, x, y, beta0, ts))
   return(betas)
 }
@@ -113,7 +112,7 @@ lasso_sg = function(lambdas, x, y, beta0, ts) {
 #' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @export
-lasso_pg = function(lambdas, x, y, beta0, ts) {
+lasso_pg = function(lambdas, x, y, beta0, ts, ...) {
   betas = lapply(lambdas, function(lambda) lasso_optim_pg(lambda, x, y, beta0, ts))
   return(betas)
 }
@@ -123,9 +122,10 @@ lasso_pg = function(lambdas, x, y, beta0, ts) {
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
+#' @param n_it Number of iterations. Default value 100.
 #' @export
-lasso_cd = function(lambdas, x, y, beta0, ts){
-  betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0, ts))
+lasso_cd = function(lambdas, x, y, beta0, n_it=100, ...){
+  betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0, n_it))
   return(betas)
 }
 
@@ -166,9 +166,10 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
+#' @param n_it Number of iterations. Default value 100
 #' @export
-lasso_cd_plot = function(lambdas, x, y, beta0, ...) {
-  betas = lasso_cd(lambdas, x, y, beta0, ts)
+lasso_cd_plot = function(lambdas, x, y, beta0, n_it=100) {
+  betas = lasso_cd(lambdas, x, y, beta0, n_it)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
     type="l", lty=1,
@@ -190,6 +191,7 @@ glmnet_optim_plot = function(lambdas, x, y) {
 }
 
 #' Examples 1
+#' @import glmnet
 #' @export
 lasso_test_1 = function() {
   x = matrix(data = rnorm(9000), ncol = 3)
@@ -197,14 +199,15 @@ lasso_test_1 = function() {
   er = as.matrix(rnorm(3000))
   y = x %*% b + er
   lambdas = exp(seq(-5,2,0.2))
-  beta0 = as.matrix(c(-3,0,3))
+  beta0 = as.matrix(rep(0,3))
   ts = opt_ts(0.1, 1000, 1000)
   lasso_sg_plot(lambdas, x, y, beta0, ts)
   lasso_pg_plot(lambdas, x, y, beta0, ts)
-  lasso_cd_plot(lambdas, x, y, beta0, ts)
+  lasso_cd_plot(lambdas, x, y, beta0, 100)
   glmnet_optim_plot(lambdas, x, y)
 }
 #' Examples 2
+#' @import glmnet
 #' @export
 lasso_test_2 = function()
 {
@@ -217,6 +220,6 @@ lasso_test_2 = function()
   ts = opt_ts(0.1, 1000, 1000)
   lasso_sg_plot(lambdas, x, y, beta0, ts)
   lasso_pg_plot(lambdas, x, y, beta0, ts)
-  lasso_cd_plot(lambdas, x, y, beta0, ts)
+  lasso_cd_plot(lambdas, x, y, beta0, 100)
   glmnet_optim_plot(lambdas, x, y)
 }
