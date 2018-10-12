@@ -92,7 +92,7 @@ lasso_optim_cd = function(lambda, x, y, beta0, ...){
 }
 
 #' Coefficient path (sg)
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
@@ -104,7 +104,7 @@ lasso_sg = function(lambdas, x, y, beta0, ts) {
 }
 
 #' Coefficient path (pg)
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
@@ -116,7 +116,7 @@ lasso_pg = function(lambdas, x, y, beta0, ts) {
 }
 
 #' Coefficient path (cd)
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
@@ -127,7 +127,7 @@ lasso_cd = function(lambdas, x, y, beta0, ...){
 }
 
 #' sg Plot
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
@@ -143,7 +143,7 @@ lasso_sg_plot = function(lambdas, x, y, beta0, ts) {
 }
 
 #' pg plot
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
@@ -159,7 +159,7 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
 }
 
 #' cd plot
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param beta0 Initial guess of the regression coefficients
@@ -174,7 +174,7 @@ lasso_cd_plot = function(lambdas, x, y, beta0, ...) {
 }
 
 #' glmnet plot
-#' @param lambda Values of the penalty term
+#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @export
