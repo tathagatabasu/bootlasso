@@ -6,7 +6,7 @@
 # 11 Oct 2018
 #
 ###################################################################################################
-source("R/coeff_lasso.R")
+#source("R/coeff_lasso.R")
 
 #' Cross-validation Tools
 
@@ -142,7 +142,6 @@ lasso.plot<-function(output, error, main=NULL)
   y.lim.bel<-min(output[2:nrow(output),])
   cut<-colMeans(error)
   x<-output[1,]
-  x11()
   matplot(log(output[1,]),t(output[2:nrow(output),]),type = "l", 
           xlab = expression(paste(log(lambda))),
           ylab = "Coefficients", ylim = c(y.lim.bel,y.lim.up),
@@ -164,7 +163,6 @@ cv.plot<-function(error,lambda, main=NULL)
   yHigh <- y+ysd
   xLow <- x
   yLow <- y-ysd
-  x11()
   plot(x,y,xlab=expression(log(lambda)),ylab="mean-squared error",
        main=main, 
        ylim = c(min(yLow),max(yHigh)), col="red", pch=20)
