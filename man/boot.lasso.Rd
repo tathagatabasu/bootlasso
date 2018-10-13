@@ -5,7 +5,7 @@
 \title{Bootstrap for LASSO.}
 \usage{
 boot.lasso(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1,
-  1000, 1000), method = lasso_cd, k = 5, n.sim = 500)
+  1000, 1000), method = lasso_cd, k = 5, n_it = 100, n.sim = 500)
 }
 \arguments{
 \item{lambdas}{values of the penalty parameter}
@@ -21,6 +21,8 @@ boot.lasso(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1,
 \item{method}{Optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg)}
 
 \item{k}{No. of folds for cross-validation. Default value is 5.}
+
+\item{n_it}{No. of iteration for lasso_cd optimization. Default is 100.}
 
 \item{n.sim}{No. of bootstrap replicates. Default is 500.}
 }

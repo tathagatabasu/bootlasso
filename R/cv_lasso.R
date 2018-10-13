@@ -160,9 +160,9 @@ cv.plot<-function(error,lambda, main=NULL)
   ysd<-apply(error, 2, sd)
   x<-log(lambda)
   xHigh <- x
-  yHigh <- y+ysd
+  yHigh <- y+ysd/2
   xLow <- x
-  yLow <- y-ysd
+  yLow <- y-ysd/2
   plot(x,y,xlab=expression(log(lambda)),ylab="mean-squared error",
        main=main, 
        ylim = c(min(yLow),max(yHigh)), col="red", pch=20)

@@ -65,7 +65,7 @@ cd_optim = function(x, f, v, s, n_it) {
   x.best = x
   fx.best = fx
   for (j in 1:n_it) {
-    fx.last = fx.best
+    x.last = x
     for(i in 1:length(x)) {
       x[i] = s(v(i,x))
     }
@@ -74,7 +74,7 @@ cd_optim = function(x, f, v, s, n_it) {
       x.best = x
       fx.best = fx
     }
-    if(abs(fx.last-fx)<0.00001)
+    if(sum(abs(x.last-x))<0.00001)
       break
   }
   x.best
