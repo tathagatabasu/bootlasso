@@ -5,7 +5,7 @@
 \title{Cross-validation Tools
 cross-validation}
 \usage{
-cv.lasso(lambda, x, y, beta0, ts, method, k = 5, n_it = 100)
+cv.lasso(lambda, x, y, beta0, ts, method, k = 5, n_it = 100, relax)
 }
 \arguments{
 \item{lambda}{penalty parameter}
@@ -23,6 +23,8 @@ cv.lasso(lambda, x, y, beta0, ts, method, k = 5, n_it = 100)
 \item{k}{number of fold}
 
 \item{n_it}{number of iteration for lasso_cd method}
+
+\item{relax}{relaxation on the accepted error should be between 0 and 1.}
 }
 \description{
 Cross-validation Tools

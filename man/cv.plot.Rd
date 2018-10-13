@@ -4,7 +4,7 @@
 \alias{cv.plot}
 \title{cv curve plot}
 \usage{
-cv.plot(error, lambda, main = NULL)
+cv.plot(error, lambda, index, main = NULL)
 }
 \description{
 cv curve plot

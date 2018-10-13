@@ -4,7 +4,7 @@
 \alias{lasso.plot}
 \title{lasso plots}
 \usage{
-lasso.plot(output, error, main = NULL)
+lasso.plot(output, error, index, main = NULL)
 }
 \description{
 lasso plots
