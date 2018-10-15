@@ -40,14 +40,11 @@ sg_optim = function(x, f, df, ts) {
 #' @param x Starting value.
 #' @param f Function to optimize.
 #' @param df Gradient of f.
-#' @param p Proximal operator for g.
+#' @param pg Proximal operator for g.
 #' @param ts Sequence of step sizes.
 #' @export
 
-pg_optim = function(x, f, df, g, p, ts) {
-  fx = f(x)
-  x.best = x
-  fx.best = fx
+pg_optim = function(x, f, df, pg, ts) {
   for (t in ts) x = p(t, x - t * df(x))
   x
 }
