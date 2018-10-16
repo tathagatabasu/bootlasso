@@ -74,9 +74,8 @@ lasso_optim_sg = function(lambda, x, y, beta0, ts) {
 lasso_optim_pg = function(lambda, x, y, beta0, ts) {
   f = function(beta) square_f(x, y, beta)
   df = function(beta) square_df(x, y, beta)
-  g = function(beta) lasso_f(lambda, beta)
-  p = lasso_p(lambda)
-  pg_optim(x=beta0, f=f, df=df, g=g, p=p, ts=ts)
+  pg = lasso_p(lambda)
+  pg_optim(x=beta0, f=f, df=df, pg=pg, ts=ts)
 }
 
 #' LASSO optimization using coordinate descent
