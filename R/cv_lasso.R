@@ -62,7 +62,7 @@ cv.lasso<-function(lambda, x, y, beta0, ts, method, k=5, n_it=100, relax)
   m<-cv.model
   e<-cv.error
   me=colMeans(e)
-  cv.error.index<-max(which(me<min(me)+(max(me)-min(me))*relax))
+  cv.error.index<-max(which(me<=(min(me)+(max(me)-min(me))*relax)))
   cv.coef<-m[,cv.error.index]
   output<-list("cv.model"=cv.model, "cv.error"=cv.error, "cv.coeff"=cv.coef, "index"=cv.error.index)
   return(output)

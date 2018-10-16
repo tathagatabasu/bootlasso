@@ -9,16 +9,17 @@
 #' @param k No. of folds for cross-validation. Default value is 5.
 #' @param n_it No. of iteration for lasso_cd optimization. Default is 100.
 #' @param n.sim No. of bootstrap replicates. Default is 500.
+#' @param relax Relaxation on the error bound. Default vale (minimum error)
 #' @export
 
-boot.lasso<-function(lambdas, x, y, beta0=rep(0, ncol(x)), ts = opt_ts(0.1, 1000, 1000), method = lasso_cd, k=5, n_it=100, n.sim=500){
+boot.lasso<-function(lambdas, x, y, beta0=rep(0, ncol(x)), ts = opt_ts(0.1, 1000, 1000), method = lasso_cd, k=5, n_it=100, n.sim=500, relax=0){
 
   #-----------------------------------------------------------------------------
   # Main funtion
   #-----------------------------------------------------------------------------
   
   cv1 <- function(x, y){
-    data.cv.temp = cv.lasso(lambdas, x, y, beta0=beta0, ts=ts, method=method, n_it=n_it, k=k)
+    data.cv.temp = cv.lasso(lambdas, x, y, beta0=beta0, ts=ts, method=method, n_it=n_it, k=k, relax=relax)
     data.fitlasso <- data.cv.temp$cv.model[-1,max(which(colMeans(data.cv.temp$cv.error)==min(colMeans(data.cv.temp$cv.error))))]
     lc=as.matrix(data.fitlasso)
     return(lc)}
@@ -57,7 +58,7 @@ boot.lasso<-function(lambdas, x, y, beta0=rep(0, ncol(x)), ts = opt_ts(0.1, 1000
     #-----------------------------------------------------------------------------
     
     cv <- function(X.new, Y.new){
-      data.cv.temp =cv.lasso(lambdas, x, y, beta0=beta0, ts=ts, method=method, n_it=n_it, k=k )
+      data.cv.temp =cv.lasso(lambdas, x, y, beta0=beta0, ts=ts, method=method, n_it=n_it, k=k, relax=relax)
       data.fitlasso <- data.cv.temp$cv.model[-1,max(which(colMeans(data.cv.temp$cv.error)==min(colMeans(data.cv.temp$cv.error))))]
       lc=as.matrix(data.fitlasso)
       return(lc)}
