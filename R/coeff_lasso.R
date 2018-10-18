@@ -39,7 +39,7 @@ soft  = function(lambda)function(x) sign(x) * max(0, abs(x) - lambda)
 #' CD LASSO Soft Threshold term
 #' @export
 st_f = function(i, x, y, beta)
-  t(x[,i])%*%(y-x[,-i]%*%beta[-i])/(t(x[,i])%*%x[,i])
+  t(x[,i]) %*% (y - x[,-i] %*% beta[-i]) / (t(x[,i]) %*% x[,i])
 
 #' LASSO objective
 #' @export
@@ -61,7 +61,7 @@ square_lasso_df = function(lambda, x, y, beta)
 lasso_optim_sg = function(lambda, x, y, beta0, ts) {
   f = function(beta) square_lasso_f(lambda, x, y, beta)
   df = function(beta) square_lasso_df(lambda, x, y, beta)
-  sg_optim(x=beta0, f=f, df=df, ts=ts)
+  sg_optim(x = beta0, f = f, df = df, ts = ts)
 }
 
 #' LASSO optimization (proximal gradient)
@@ -75,7 +75,7 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts) {
   f = function(beta) square_f(x, y, beta)
   df = function(beta) square_df(x, y, beta)
   pg = lasso_p(lambda)
-  pg_optim(x=beta0, f=f, df=df, pg=pg, ts=ts)
+  pg_optim(x = beta0, f = f, df = df, pg = pg, ts = ts)
 }
 
 #' LASSO optimization using coordinate descent
@@ -85,11 +85,11 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts) {
 #' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100
 #' @export
-lasso_optim_cd = function(lambda, x, y, beta0, n_it=100){
+lasso_optim_cd = function(lambda, x, y, beta0, n_it = 100){
   s = soft(lambda)
   f = function(beta) square_lasso_f(lambda, x, y, beta)
   v = function(i, beta) st_f(i, x, y, beta)
-  cd_optim(x=beta0, f=f, v=v, s=s, n_it=n_it)
+  cd_optim(x = beta0, f = f, v = v, s = s, n_it = n_it)
 }
 
 #' Coefficient path (sg)
@@ -123,7 +123,7 @@ lasso_pg = function(lambdas, x, y, beta0, ts, ...) {
 #' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100.
 #' @export
-lasso_cd = function(lambdas, x, y, beta0, n_it=100, ...){
+lasso_cd = function(lambdas, x, y, beta0, n_it = 100, ...){
   betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0, n_it))
   return(betas)
 }
@@ -139,9 +139,9 @@ lasso_sg_plot = function(lambdas, x, y, beta0, ts) {
   betas = lasso_sg(lambdas, x, y, beta0, ts)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
-    type="l", lty=1,
-    xlab=expression(paste(log(lambda))), ylab=expression(paste(beta)),
-    main="Sub-gradient Method")
+    type = "l", lty = 1,
+    xlab = expression(paste(log(lambda))), ylab = expression(paste(beta)),
+    main = "Sub-gradient Method")
 }
 
 #' pg plot
@@ -155,9 +155,9 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
   betas = lasso_pg(lambdas, x, y, beta0, ts)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
-    type="l", lty=1,
-    xlab=expression(paste(log(lambda))), ylab=expression(paste(beta)),
-    main="Proximal Gradient Method")
+    type = "l", lty = 1,
+    xlab = expression(paste(log(lambda))), ylab = expression(paste(beta)),
+    main = "Proximal Gradient Method")
 }
 
 #' cd plot
@@ -167,13 +167,13 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
 #' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100
 #' @export
-lasso_cd_plot = function(lambdas, x, y, beta0, n_it=100) {
+lasso_cd_plot = function(lambdas, x, y, beta0, n_it = 100) {
   betas = lasso_cd(lambdas, x, y, beta0, n_it)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
-    type="l", lty=1,
-    xlab=expression(paste(log(lambda))), ylab=expression(paste(beta)),
-    main="Co-ordinate Descent Method")
+    type = "l", lty = 1,
+    xlab = expression(paste(log(lambda))), ylab = expression(paste(beta)),
+    main = "Co-ordinate Descent Method")
 }
 
 #' glmnet plot
@@ -182,17 +182,18 @@ lasso_cd_plot = function(lambdas, x, y, beta0, n_it=100) {
 #' @param y Response
 #' @export
 glmnet_optim_plot = function(lambdas, x, y) {
-  glmfit = glmnet(x, y, alpha=1, family="gaussian")
+  glmfit = glmnet(x, y, alpha=1, family = "gaussian")
   plot(
-    glmfit, xvar="lambda", xlim=c(min(log(lambdas)), max(log(lambdas))),
-    xlab=expression(paste(log(lambda))), ylab=expression(paste(beta)))
-  abline(h=0, col="black", lty=2)
+    glmfit, xvar = "lambda", xlim = c(min(log(lambdas)), max(log(lambdas))),
+    xlab = expression(paste(log(lambda))), ylab = expression(paste(beta)))
+  abline(h = 0, col = "black", lty = 2)
 }
 
 #' Examples 1
 #' @import glmnet
 #' @export
-lasso_test_1 = function() {
+example_lasso_1 = function() 
+{
   x = matrix(data = rnorm(9000), ncol = 3)
   b = as.matrix(c(-3,0,3))
   er = as.matrix(rnorm(3000))
@@ -208,12 +209,12 @@ lasso_test_1 = function() {
 #' Examples 2
 #' @import glmnet
 #' @export
-lasso_test_2 = function()
+example_lasso_2 = function()
 {
   x = matrix(data = rnorm(1200), nrow = 50, ncol = 24)
   b = as.matrix(rep(c(-3,-2,-1,1,2,3), 4))
   er = as.matrix(rnorm(50))
-  y = x%*%b + er
+  y = x %*% b + er
   lambdas = exp(seq(-5,2,0.2))
   beta0 = b
   ts = opt_ts(0.1, 1000, 1000)

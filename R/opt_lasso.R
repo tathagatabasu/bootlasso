@@ -45,7 +45,7 @@ sg_optim = function(x, f, df, ts) {
 #' @export
 
 pg_optim = function(x, f, df, pg, ts) {
-  for (t in ts) x = p(t, x - t * df(x))
+  for (t in ts) x = pg(t, x - t * df(x))
   x
 }
 
@@ -71,7 +71,7 @@ cd_optim = function(x, f, v, s, n_it) {
       x.best = x
       fx.best = fx
     }
-    if(sum(abs(x.last-x))<0.00001)
+    if(sum(abs(x.last - x)) < 0.00001)
       break
   }
   x.best

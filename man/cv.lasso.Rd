@@ -5,10 +5,11 @@
 \title{Cross-validation Tools
 cross-validation}
 \usage{
-cv.lasso(lambda, x, y, beta0, ts, method, k = 5, n_it = 100, relax)
+cv.lasso(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10,
+  rel_er = 0, df = NULL)
 }
 \arguments{
-\item{lambda}{penalty parameter}
+\item{lambdas}{penalty parameter}
 
 \item{x}{predictors}
 
@@ -24,7 +25,9 @@ cv.lasso(lambda, x, y, beta0, ts, method, k = 5, n_it = 100, relax)
 
 \item{n_it}{number of iteration for lasso_cd method}
 
-\item{relax}{relaxation on the accepted error should be between 0 and 1.}
+\item{rel_er}{Relative error. Should be between 0 (minimum error) and 1 (maximum error).}
+
+\item{df}{Maximum number of desired (non-zero) variable in the model.}
 }
 \description{
 Cross-validation Tools

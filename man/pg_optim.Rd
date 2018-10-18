@@ -4,7 +4,7 @@
 \alias{pg_optim}
 \title{Proximal gradient optimization.}
 \usage{
-pg_optim(x, f, df, g, p, ts)
+pg_optim(x, f, df, pg, ts)
 }
 \arguments{
 \item{x}{Starting value.}
@@ -13,7 +13,7 @@ pg_optim(x, f, df, g, p, ts)
 
 \item{df}{Gradient of f.}
 
-\item{p}{Proximal operator for g.}
+\item{pg}{Proximal operator for g.}
 
 \item{ts}{Sequence of step sizes.}
 }

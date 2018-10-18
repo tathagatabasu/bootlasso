@@ -4,7 +4,16 @@
 \alias{cv.plot}
 \title{cv curve plot}
 \usage{
-cv.plot(error, lambda, index, main = NULL)
+cv.plot(error, lambdas, index, main = NULL)
+}
+\arguments{
+\item{error}{error obtained from cross-validation}
+
+\item{lambdas}{sequence of lambdas}
+
+\item{index}{index obtained from cross-validation for checking desired lambdas intersect.}
+
+\item{main}{Title of the plot.}
 }
 \description{
 cv curve plot
