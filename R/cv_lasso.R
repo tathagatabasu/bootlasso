@@ -20,7 +20,7 @@
 #' @param k number of fold
 #' @param n_it number of iteration for lasso_cd method
 #' @param rel_er Relative error. Should be between 0 (minimum error) and 1 (maximum error).
-#' @param df Maximum number of desired (non-zero) variable in the model.
+#' @param df Degree of freedom. Number of desired variables to be zero.
 #' @export
 
 cv.lasso = function(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10, rel_er = 0, df = NULL)
@@ -69,10 +69,10 @@ cv.lasso = function(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10, rel_er =
   me = colMeans(e)
   cv.error.index = max(which(me <= (min(me) + (max(me) - min(me)) * rel_er)))
   
-  nvar = as.matrix(colSums(beta != 0)); colnames(nvar) = "nvar"
-  df = ncol(x) - nvar
+  nvar = as.matrix(colSums(beta != 0))
+  vdf = ncol(x) - nvar; colnames(vdf) = "df"
   er = as.matrix(me); colnames(er) = "error"
-  cv.df = cbind(lambdas, nvar, er)
+  cv.df = cbind(lambdas, vdf, er)
   
   s = min(which(nvar == 0))
   
@@ -243,6 +243,6 @@ example.cv = function(rel_er)
   cat(sprintf("LASSO estimates \n"))
   print(test.cv$coeff)
   
-  cat(sprintf("No of variables w.r.t. lambda \n"))
+  cat(sprintf("Degrees of freedom w.r.t. lambda \n"))
   print(test.cv$df)
 }

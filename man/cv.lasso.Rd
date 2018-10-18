@@ -27,7 +27,7 @@ cv.lasso(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10,
 
 \item{rel_er}{Relative error. Should be between 0 (minimum error) and 1 (maximum error).}
 
-\item{df}{Maximum number of desired (non-zero) variable in the model.}
+\item{df}{Degree of freedom. Number of desired variables to be zero.}
 }
 \description{
 Cross-validation Tools
