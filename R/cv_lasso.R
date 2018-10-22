@@ -36,7 +36,7 @@ cv.lasso = function(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10, rel_er =
     traindata = as.matrix(apply(data.partition[,,-i], 2, rbind))
     x = traindata[,2:ncol(traindata)]
     y = traindata[,1]
-    model = method(lambdas, x, y, beta0, ts, n_it = n_it)
+    model = method(lambdas = lambdas, x = x, y = y, beta0 = beta0, ts = ts, n_it = n_it)
   }
   model = sapply(1:k, cv.train, simplify = "array")
   model = array(unlist(model), dim = c(ncol(x), length(lambdas), k))

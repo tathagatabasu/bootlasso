@@ -123,8 +123,16 @@ lasso_pg = function(lambdas, x, y, beta0, ts, ...) {
 #' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100.
 #' @export
-lasso_cd = function(lambdas, x, y, beta0, n_it = 100, ...){
-  betas = lapply(lambdas, function(lambda)lasso_optim_cd(lambda, x, y, beta0, n_it))
+
+lasso_cd = function(lambdas, x, y, n_it=100, ...){
+  beta0 = as.matrix(rep(1, ncol(x)))
+  betas = matrix(data = 0, nrow = ncol(x), ncol = length(lambdas))
+  k = 1
+  while (sum(abs(beta0>0.00001))) {
+    k = k + 1
+    betas[,(k - 1)] = lasso_optim_cd(lambdas[k-1], x, y, beta0, n_it)
+    beta0 = betas[,(k-1)]
+  }
   return(betas)
 }
 
@@ -167,10 +175,10 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts) {
 #' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100
 #' @export
-lasso_cd_plot = function(lambdas, x, y, beta0, n_it = 100) {
-  betas = lasso_cd(lambdas, x, y, beta0, n_it)
+lasso_cd_plot = function(lambdas, x, y, n_it = 100) {
+  betas = lasso_cd(lambdas, x, y, n_it)
   matplot(
-    log(lambdas), t(do.call(cbind, betas)),
+    log(lambdas), t(betas),#do.call(cbind, betas)),
     type = "l", lty = 1,
     xlab = expression(paste(log(lambda))), ylab = expression(paste(beta)),
     main = "Co-ordinate Descent Method")
@@ -203,7 +211,7 @@ example_lasso_1 = function()
   ts = opt_ts(0.1, 1000, 1000)
   lasso_sg_plot(lambdas, x, y, beta0, ts)
   lasso_pg_plot(lambdas, x, y, beta0, ts)
-  lasso_cd_plot(lambdas, x, y, beta0, 100)
+  lasso_cd_plot(lambdas, x, y, 100)
   glmnet_optim_plot(lambdas, x, y)
 }
 #' Examples 2
@@ -220,6 +228,6 @@ example_lasso_2 = function()
   ts = opt_ts(0.1, 1000, 1000)
   lasso_sg_plot(lambdas, x, y, beta0, ts)
   lasso_pg_plot(lambdas, x, y, beta0, ts)
-  lasso_cd_plot(lambdas, x, y, beta0, 100)
+  lasso_cd_plot(lambdas, x, y, 100)
   glmnet_optim_plot(lambdas, x, y)
 }

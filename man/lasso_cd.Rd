@@ -4,7 +4,7 @@
 \alias{lasso_cd}
 \title{Coefficient path (cd)}
 \usage{
-lasso_cd(lambdas, x, y, beta0, n_it = 100, ...)
+lasso_cd(lambdas, x, y, n_it = 100, ...)
 }
 \arguments{
 \item{lambdas}{Values of the penalty term}
@@ -13,9 +13,9 @@ lasso_cd(lambdas, x, y, beta0, n_it = 100, ...)
 
 \item{y}{Response}
 
-\item{beta0}{Initial guess of the regression coefficients}
-
 \item{n_it}{Number of iterations. Default value 100.}
+
+\item{beta0}{Initial guess of the regression coefficients}
 }
 \description{
 Coefficient path (cd)
