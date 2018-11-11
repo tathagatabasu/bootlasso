@@ -4,10 +4,10 @@
 \alias{example.cv}
 \title{Examples}
 \usage{
-example.cv(rel_er)
+example.cv(wt = NULL)
 }
 \arguments{
-\item{rel_er}{Relative error. Should be between 0 (minimum error) and 1 (maximum error).}
+\item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
 Examples

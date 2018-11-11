@@ -4,7 +4,7 @@
 \alias{example_lasso_1}
 \title{Examples 1}
 \usage{
-example_lasso_1()
+example_lasso_1(wt = NULL)
 }
 \description{
 Examples 1

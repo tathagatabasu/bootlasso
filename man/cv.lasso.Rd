@@ -5,8 +5,8 @@
 \title{Cross-validation Tools
 cross-validation}
 \usage{
-cv.lasso(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10,
-  rel_er = 0, df = NULL)
+cv.lasso(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5,
+  n_it = 10, rel_er = 0, df = NULL)
 }
 \arguments{
 \item{lambdas}{penalty parameter}
@@ -16,6 +16,8 @@ cv.lasso(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10,
 \item{y}{response}
 
 \item{beta0}{initial guess of beta}
+
+\item{wt}{weights for the coefficients of weighted LASSO.}
 
 \item{ts}{sequence of stepsize (for lasso_sg, lasso_pg)}
 

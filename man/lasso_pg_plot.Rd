@@ -4,7 +4,7 @@
 \alias{lasso_pg_plot}
 \title{pg plot}
 \usage{
-lasso_pg_plot(lambdas, x, y, beta0, ts)
+lasso_pg_plot(lambdas, x, y, beta0, ts, wt)
 }
 \arguments{
 \item{lambdas}{Values of the penalty term}
@@ -16,6 +16,8 @@ lasso_pg_plot(lambdas, x, y, beta0, ts)
 \item{beta0}{Initial guess of the regression coefficients}
 
 \item{ts}{Stepsize for optimization method}
+
+\item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
 pg plot

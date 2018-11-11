@@ -4,7 +4,7 @@
 \alias{square_lasso_f}
 \title{LASSO objective}
 \usage{
-square_lasso_f(lambda, x, y, beta)
+square_lasso_f(lambda, x, y, beta, wt)
 }
 \description{
 LASSO objective

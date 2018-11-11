@@ -4,7 +4,7 @@
 \alias{lasso_f}
 \title{LASSO penalty term}
 \usage{
-lasso_f(lambda, beta)
+lasso_f(lambda, beta, wt)
 }
 \description{
 LASSO penalty term

@@ -64,14 +64,16 @@ cd_optim = function(x, f, v, s, n_it) {
   for (j in 1:n_it) {
     x.last = x
     for(i in 1:length(x)) {
-      x[i] = s(v(i,x))
+      x[i] = s(v(i,x), i)
     }
     fx = f(x)
-    if(fx < fx.best) {
+	if (is.na(fx)== T)
+	  break
+    if(fx <= fx.best) {
       x.best = x
       fx.best = fx
     }
-    if(sum(abs(x.last - x)) < 0.00001)
+    if(sum(abs(x.last - x)) < 0.0001)
       break
   }
   x.best

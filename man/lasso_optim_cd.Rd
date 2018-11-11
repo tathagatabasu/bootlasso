@@ -4,7 +4,7 @@
 \alias{lasso_optim_cd}
 \title{LASSO optimization using coordinate descent}
 \usage{
-lasso_optim_cd(lambda, x, y, beta0, n_it = 100)
+lasso_optim_cd(lambda, x, y, beta0, n_it = 100, wt)
 }
 \arguments{
 \item{lambda}{Penalty term}
@@ -16,6 +16,8 @@ lasso_optim_cd(lambda, x, y, beta0, n_it = 100)
 \item{beta0}{Initial guess of the regression coefficients}
 
 \item{n_it}{Number of iterations. Default value 100}
+
+\item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
 LASSO optimization using coordinate descent
