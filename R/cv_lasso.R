@@ -20,11 +20,10 @@
 #' @param method lasso optimization function
 #' @param k number of fold
 #' @param n_it number of iteration for lasso_cd method
-#' @param rel_er Relative error. Should be between 0 (minimum error) and 1 (maximum error).
 #' @param df Degree of freedom. Number of desired variables to be zero.
 #' @export
 
-cv.lasso = function(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5, n_it = 10, rel_er = 0, df = NULL)
+cv.lasso = function(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5, n_it = 10, df = NULL)
 {
   data.partition = cv.random.partition(x, y, k = k)
   lambdas = as.matrix(lambdas)
@@ -73,7 +72,7 @@ cv.lasso = function(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5, n_it = 1
   m = cv.model
   e = cv.error
   me = colMeans(e)
-  cv.error.index = max(which(me <= (min(me) + (max(me) - min(me)) * rel_er)))
+  cv.error.index = max(which(me <= (min(me))))
   
   nvar = as.matrix(colSums(beta != 0))
   vdf = ncol(x) - nvar; colnames(vdf) = "df"
@@ -243,7 +242,7 @@ example.cv = function(wt=NULL)
   beta0 = b
   ts = opt_ts(0.1, 1000, 1000)
   
-  test.cv = cv.lasso(lambdas, x, y, beta0, wt = wt, ts, method = lasso_cd, rel_er = 0)
+  test.cv = cv.lasso(lambdas, x, y, beta0, wt = wt, ts, method = lasso_cd)
   m = test.cv$model
   e = test.cv$error
   i = test.cv$index
