@@ -6,7 +6,7 @@
 cross-validation}
 \usage{
 cv.lasso(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5,
-  n_it = 10, rel_er = 0, df = NULL)
+  n_it = 10, df = NULL)
 }
 \arguments{
 \item{lambdas}{penalty parameter}
@@ -26,8 +26,6 @@ cv.lasso(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5,
 \item{k}{number of fold}
 
 \item{n_it}{number of iteration for lasso_cd method}
-
-\item{rel_er}{Relative error. Should be between 0 (minimum error) and 1 (maximum error).}
 
 \item{df}{Degree of freedom. Number of desired variables to be zero.}
 }
