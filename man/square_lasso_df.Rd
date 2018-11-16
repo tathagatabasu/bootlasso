@@ -4,7 +4,7 @@
 \alias{square_lasso_df}
 \title{LASSO sub-gradient}
 \usage{
-square_lasso_df(lambda, x, y, beta)
+square_lasso_df(lambda, x, y, beta, wt)
 }
 \description{
 LASSO sub-gradient

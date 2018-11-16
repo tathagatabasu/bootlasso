@@ -4,7 +4,7 @@
 \alias{soft}
 \title{Soft threshold operator}
 \usage{
-soft(lambda)
+soft(lambda, wt)
 }
 \description{
 Soft threshold operator

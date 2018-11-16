@@ -15,6 +15,7 @@
 #' @param x predictors
 #' @param y response
 #' @param beta0 initial guess of beta
+#' @param wt weights for the coefficients of weighted LASSO.
 #' @param ts sequence of stepsize (for lasso_sg, lasso_pg)
 #' @param method lasso optimization function
 #' @param k number of fold
@@ -23,11 +24,16 @@
 #' @param df Degree of freedom. Number of desired variables to be zero.
 #' @export
 
-cv.lasso = function(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10, rel_er = 0, df = NULL)
+cv.lasso = function(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5, n_it = 10, rel_er = 0, df = NULL)
 {
   data.partition = cv.random.partition(x, y, k = k)
   lambdas = as.matrix(lambdas)
   colnames(lambdas) = "lambda"
+  
+  if ((is.null(wt) == T)|(length(wt) != length(beta0)))
+    wt = rep(1, length(beta0))
+  else
+    wt = length(beta0) * wt / sum(wt)
   
   # function for training
   
@@ -36,7 +42,7 @@ cv.lasso = function(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10, rel_er =
     traindata = as.matrix(apply(data.partition[,,-i], 2, rbind))
     x = traindata[,2:ncol(traindata)]
     y = traindata[,1]
-    model = method(lambdas = lambdas, x = x, y = y, beta0 = beta0, ts = ts, n_it = n_it)
+    model = method(lambdas = lambdas, x = x, y = y, beta0 = beta0, ts = ts, n_it = n_it, wt = wt)
   }
   model = sapply(1:k, cv.train, simplify = "array")
   model = array(unlist(model), dim = c(ncol(x), length(lambdas), k))
@@ -76,6 +82,9 @@ cv.lasso = function(lambdas, x, y, beta0, ts, method, k = 5, n_it = 10, rel_er =
   
   s = min(which(nvar == 0))
   
+  if (s == Inf)
+    s = length(lambdas)
+	
   if(cv.error.index > s)
     cv.error.index = s
   
@@ -216,25 +225,30 @@ cv.plot = function(error, lambdas, index, main=NULL)
 ###################################################################################################
 
 #' Examples
-#' @param rel_er Relative error. Should be between 0 (minimum error) and 1 (maximum error).
+#' @param wt weights for the coefficients of weighted LASSO.
 #' @export
-example.cv = function(rel_er)
+example.cv = function(wt=NULL)
 {
   cat(sprintf("\nSimulated Dataset: 24 predictors and 50 observations, no of fold is 5.\n\n"))
   x = matrix(data = rnorm(1200), nrow = 50, ncol = 24)
   b = as.matrix(rep(c(-3,-2,-1,1,2,3), 4))
   er = as.matrix(rnorm(50))
   y = x %*% b + er
+  if ((is.null(wt) == T)|(length(wt) != length(b)))
+    wt = rep(1, length(b))
+  else
+    wt = length(b) * wt/sum(wt)
   
   lambdas = exp(seq(-5,3,0.1))
   beta0 = b
   ts = opt_ts(0.1, 1000, 1000)
   
-  test.cv = cv.lasso(lambdas, x, y, beta0, ts, method = lasso_cd, rel_er = rel_er)
+  test.cv = cv.lasso(lambdas, x, y, beta0, wt = wt, ts, method = lasso_cd, rel_er = 0)
   m = test.cv$model
   e = test.cv$error
   i = test.cv$index
   cv.plot(e, m[1,], i, main = "Cross-validation error (LASSO using co-ordinate descent)")
+  x11()
   lasso.plot(m, i, main = "LASSO using co-ordinate descent")
   
   cat(sprintf("Least Square Model \n"))

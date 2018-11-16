@@ -4,7 +4,7 @@
 \alias{lasso_cd_plot}
 \title{cd plot}
 \usage{
-lasso_cd_plot(lambdas, x, y, n_it = 100)
+lasso_cd_plot(lambdas, x, y, n_it = 100, wt)
 }
 \arguments{
 \item{lambdas}{Values of the penalty term}
@@ -14,6 +14,8 @@ lasso_cd_plot(lambdas, x, y, n_it = 100)
 \item{y}{Response}
 
 \item{n_it}{Number of iterations. Default value 100}
+
+\item{wt}{weights for the coefficients of weighted LASSO.}
 
 \item{beta0}{Initial guess of the regression coefficients}
 }

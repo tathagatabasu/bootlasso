@@ -4,7 +4,7 @@
 \alias{lasso_p}
 \title{Proximal operator for lasso_f.}
 \usage{
-lasso_p(lambda)
+lasso_p(lambda, wt)
 }
 \description{
 Proximal operator for lasso_f.

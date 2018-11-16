@@ -4,7 +4,7 @@
 \alias{lasso_optim_pg}
 \title{LASSO optimization (proximal gradient)}
 \usage{
-lasso_optim_pg(lambda, x, y, beta0, ts)
+lasso_optim_pg(lambda, x, y, beta0, ts, wt)
 }
 \arguments{
 \item{lambda}{Penalty term}
@@ -16,6 +16,8 @@ lasso_optim_pg(lambda, x, y, beta0, ts)
 \item{beta0}{Initial guess of the regression coefficients}
 
 \item{ts}{Stepsize for optimization method}
+
+\item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
 LASSO optimization (proximal gradient)
