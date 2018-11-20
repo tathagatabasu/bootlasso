@@ -23,11 +23,12 @@
 #' @param df Degree of freedom. Number of desired variables to be zero.
 #' @export
 
-cv.lasso = function(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5, n_it = 10, df = NULL)
+cv.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL)
 {
   data.partition = cv.random.partition(x, y, k = k)
   lambdas = as.matrix(lambdas)
   colnames(lambdas) = "lambda"
+  beta0 = rep(0, ncol(x))
   
   if ((is.null(wt) == T)|(length(wt) != length(beta0)))
     wt = rep(1, length(beta0))
@@ -240,10 +241,8 @@ example.cv = function(wt=NULL)
     wt = length(b) * wt/sum(wt)
   
   lambdas = exp(seq(-5,3,0.1))
-  beta0 = b
-  ts = opt_ts(0.1, 1000, 1000)
   
-  test.cv = cv.lasso(lambdas, x, y, beta0, wt = wt, ts, method = lasso_cd)
+  test.cv = cv.lasso(lambdas, x, y, wt = wt)
   
   cv.plot(test.cv, main = "Cross-validation error (LASSO using co-ordinate descent)")
   x11()

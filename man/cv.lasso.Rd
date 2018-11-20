@@ -5,8 +5,8 @@
 \title{Cross-validation Tools
 cross-validation}
 \usage{
-cv.lasso(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5,
-  n_it = 10, df = NULL)
+cv.lasso(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd,
+  k = 5, n_it = 10, df = NULL)
 }
 \arguments{
 \item{lambdas}{penalty parameter}
@@ -14,8 +14,6 @@ cv.lasso(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5,
 \item{x}{predictors}
 
 \item{y}{response}
-
-\item{beta0}{initial guess of beta}
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
 
@@ -28,6 +26,8 @@ cv.lasso(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5,
 \item{n_it}{number of iteration for lasso_cd method}
 
 \item{df}{Degree of freedom. Number of desired variables to be zero.}
+
+\item{beta0}{initial guess of beta}
 }
 \description{
 Cross-validation Tools
