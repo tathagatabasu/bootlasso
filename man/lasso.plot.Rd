@@ -4,12 +4,10 @@
 \alias{lasso.plot}
 \title{lasso plots}
 \usage{
-lasso.plot(output, index, main = NULL)
+lasso.plot(cv, main = NULL)
 }
 \arguments{
-\item{output}{model obtained by doing cross-validation.}
-
-\item{index}{index obtained from cross-validation for checking desired lambdas intersect.}
+\item{cv}{model obtained by doing cross-validation.}
 
 \item{main}{Title of the plot.}
 }

@@ -87,12 +87,16 @@ cv.lasso = function(lambdas, x, y, beta0, wt = NULL, ts, method, k = 5, n_it = 1
   if(cv.error.index > s)
     cv.error.index = s
   
-  cv.coef = m[,cv.error.index]
+  mse = mean(e[,cv.error.index])
+  cv.coef = c(m[,cv.error.index], mse)
+  names(cv.coef)[length(cv.coef)] = "mse"
   
   if(is.null(df)==F)
   {
-    colSums(m[-1,]!=0)
-    cv.coef = m[-1,which(colMeans(e)==min(colMeans(e)[which(nvar <= (ncol(x) - df))]))]
+    cv.error.index = which(colMeans(e)==min(colMeans(e)[which(nvar <= (ncol(x) - df))]))
+    mse = mean(e[,cv.error.index])
+    cv.coef = c(m[,cv.error.index], mse)
+    names(cv.coef)[length(cv.coef)] = "mse"
   }
   
   output = list("model" = cv.model[,1:s], "error" = cv.error[,1:s], "coeff" = cv.coef, "index" = cv.error.index,
@@ -172,53 +176,50 @@ normalize = function(x, y)
 ###################################################################################################
 
 #' lasso plots
-#' @param output model obtained by doing cross-validation.
-#' @param index index obtained from cross-validation for checking desired lambdas intersect.
+#' @param cv model obtained by doing cross-validation.
 #' @param main Title of the plot.
 #' @export
 
-lasso.plot = function(output, index, main=NULL)
+lasso.plot = function(cv, main=NULL)
 {
-  y.lim.up = max(abs(output[2:nrow(output),]))
-  y.lim.bel = min(output[2:nrow(output),])
-  x = output[1,]
+  y.lim.up = max(abs(cv$model[2:nrow(cv$model),]))
+  y.lim.bel = min(cv$model[2:nrow(cv$model),])
+  x = cv$model[1,]
   
-  matplot(log(output[1,]), t(output[2:nrow(output),]), type = "l", 
+  matplot(log(cv$model[1,]), t(cv$model[2:nrow(cv$model),]), type = "l", 
           xlab = expression(paste(log(lambdas))),
           ylab = "Coefficients", ylim = c(y.lim.bel, y.lim.up),
           main = main,
           lty = 1, col = 1:6)
   abline(h = 0, col = "black", lty = 2)
-  abline(v = log(x[max(index)]), lty = 2)
+  abline(v = log(x[max(cv$index)]), lty = 2)
 }
 
 #' cv curve plot
-#' @param error error obtained from cross-validation
-#' @param lambdas sequence of lambdas
-#' @param index index obtained from cross-validation for checking desired lambdas intersect.
+#' @param cv model obtained by doing cross-validation.
 #' @param main Title of the plot.
 #' @export
 
-cv.plot = function(error, lambdas, index, main=NULL)
+cv.plot = function(cv, main=NULL)
 {
-  error = as.matrix(error)
-  y = colMeans(error)
-  ysd = apply(error, 2, sd)
+  error = as.matrix(cv$error)
+  y = colMeans(cv$error)
+  ysd = apply(cv$error, 2, sd)
   yHigh = y + ysd / 2
   yLow = y - ysd / 2
   
-  x = log(lambdas)
+  x = log(cv$model[1,])
   xHigh = x
   xLow = x
   
-  plot(x, y, xlab = expression(log(lambdas)),
+  plot(x, y, xlab = expression(paste(log(lambdas))),
        ylab="mean-squared error",
        main=main, 
        ylim = c(min(yLow), max(yHigh)), col = "red", pch = 20)
   
   arrows(xHigh, yHigh, xLow, yLow, col = "grey", angle = 90, length = 0.03, code = 3)
   lines(x, y, col = "red", lty = 2)
-  abline(v = x[max(index)], lty = 2)
+  abline(v = x[max(cv$index)], lty = 2)
 }
 
 ###################################################################################################
@@ -243,12 +244,10 @@ example.cv = function(wt=NULL)
   ts = opt_ts(0.1, 1000, 1000)
   
   test.cv = cv.lasso(lambdas, x, y, beta0, wt = wt, ts, method = lasso_cd)
-  m = test.cv$model
-  e = test.cv$error
-  i = test.cv$index
-  cv.plot(e, m[1,], i, main = "Cross-validation error (LASSO using co-ordinate descent)")
+  
+  cv.plot(test.cv, main = "Cross-validation error (LASSO using co-ordinate descent)")
   x11()
-  lasso.plot(m, i, main = "LASSO using co-ordinate descent")
+  lasso.plot(test.cv, main = "LASSO using co-ordinate descent")
   
   cat(sprintf("Least Square Model \n"))
   print(lm(y ~ x - 1))
