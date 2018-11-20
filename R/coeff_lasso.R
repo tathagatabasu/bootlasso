@@ -132,13 +132,7 @@ lasso_pg = function(lambdas, x, y, beta0, ts, wt, ...) {
 
 lasso_cd = function(lambdas, x, y, n_it=100, wt, ...){
   beta0 = as.matrix(rep(1, ncol(x)))
-  betas = matrix(data = 0, nrow = ncol(x), ncol = length(lambdas))
-  k = 1
-  while (sum(abs(beta0>0.00001))&(k <= length(lambdas))) {
-    k = k + 1
-    betas[,(k - 1)] = lasso_optim_cd(lambdas[k-1], x, y, beta0, n_it, wt)
-    beta0 = betas[,(k-1)]
-  }
+  betas = lapply(lambdas, function(lambda) lasso_optim_cd(lambda, x, y, beta0, n_it, wt))
   return(betas)
 }
 
@@ -187,7 +181,7 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts, wt) {
 lasso_cd_plot = function(lambdas, x, y, n_it = 100, wt) {
   betas = lasso_cd(lambdas, x, y, n_it, wt)
   matplot(
-    log(lambdas), t(betas),#do.call(cbind, betas)),
+    log(lambdas), t(do.call(cbind, betas)),
     type = "l", lty = 1,
     xlab = expression(paste(log(lambda))), ylab = expression(paste(beta)),
     main = "Co-ordinate Descent Method")
@@ -215,7 +209,7 @@ example_lasso_1 = function(wt = NULL)
     wt = rep(1, 3)
   else
     wt = 3 * wt/sum(wt)
-  
+
   x = matrix(data = rnorm(9000), ncol = 3)
   b = as.matrix(c(-3,0,3))
   er = as.matrix(rnorm(3000))
