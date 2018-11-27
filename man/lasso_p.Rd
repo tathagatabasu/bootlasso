@@ -7,5 +7,5 @@
 lasso_p(lambda, wt)
 }
 \description{
-Proximal operator for lasso_f.
+For internal use
 }

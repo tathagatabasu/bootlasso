@@ -2,13 +2,13 @@
 % Please edit documentation in R/boot_lasso.R
 \name{example.boot}
 \alias{example.boot}
-\title{Examples}
+\title{Example}
 \usage{
-example.boot(rel_er)
+example.boot(n.sim = 200)
 }
 \arguments{
-\item{rel_er}{Relative error. Should be between 0 (minimum error) and 1 (maximum error).}
+\item{n.sim}{No. of bootstrap replicates. Default value is 200.}
 }
 \description{
-Examples
+Example to check boot-strap LASSO
 }

@@ -4,17 +4,20 @@
 \alias{cd_optim}
 \title{Co-ordinate descent optimization.}
 \usage{
-cd_optim(x, f, v, s, n_it)
+cd_optim(x, f, x_it, n_it = 100)
 }
 \arguments{
 \item{x}{Starting value.}
 
 \item{f}{Function to optimize.}
 
-\item{n_it}{Number of iterations. Default value 100}
+\item{x_it}{Iterative x obtained from the subgradient function}
 
-\item{df}{Any subgradient of f.}
+\item{n_it}{Number of iterations. Default value is 100}
+}
+\value{
+The function returns the optimal solution
 }
 \description{
-Co-ordinate descent optimization.
+Function for co-ordinate descent optimization for non-differentiable functions
 }

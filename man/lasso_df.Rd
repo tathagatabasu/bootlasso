@@ -7,5 +7,5 @@
 lasso_df(lambda, beta, wt)
 }
 \description{
-LASSO penalty subgradient (Note: not actual gradient.)
+For internal use
 }

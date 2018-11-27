@@ -7,5 +7,5 @@
 square_lasso_df(lambda, x, y, beta, wt)
 }
 \description{
-LASSO sub-gradient
+For internal use
 }

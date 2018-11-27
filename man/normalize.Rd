@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv_lasso.R
 \name{normalize}
 \alias{normalize}
-\title{function for normalizing the data}
+\title{Normalizing the data}
 \usage{
 normalize(x, y)
 }
@@ -11,6 +11,11 @@ normalize(x, y)
 
 \item{y}{response}
 }
+\value{
+The function returns following list of outputs
+\item{x}{normalized predictor}
+\item{y}{normalized response}
+}
 \description{
-function for normalizing the data
+Function for normalizing the dataset
 }

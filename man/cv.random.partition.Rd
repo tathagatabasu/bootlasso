@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv_lasso.R
 \name{cv.random.partition}
 \alias{cv.random.partition}
-\title{random partitioning for cross-validation}
+\title{Random partition}
 \usage{
 cv.random.partition(x, y, k)
 }
@@ -13,6 +13,9 @@ cv.random.partition(x, y, k)
 
 \item{k}{number of fold}
 }
+\value{
+Partitioned dataset
+}
 \description{
-random partitioning for cross-validation
+For internal use
 }

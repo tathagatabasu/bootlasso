@@ -7,5 +7,5 @@
 lasso_f(lambda, beta, wt)
 }
 \description{
-LASSO penalty term
+For internal use
 }

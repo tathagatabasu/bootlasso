@@ -7,5 +7,5 @@
 st_f(i, x, y, beta)
 }
 \description{
-CD LASSO Soft Threshold term
+For internal use
 }

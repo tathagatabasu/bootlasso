@@ -15,8 +15,12 @@ pg_optim(x, f, df, pg, ts)
 
 \item{pg}{Proximal operator for g.}
 
-\item{ts}{Sequence of step sizes.}
+\item{ts}{Sequence of step sizes. use opt_ts() for stepsize generation}
+}
+\value{
+The function returns the optimal solution
 }
 \description{
-We're trying to minimize f + g; prox is the proximal operator for g.
+Function for proximal-gradient optimization for non-differentiable functions
+We're trying to minimize f + g; where f is the differentiable part and g is the non-differentiable part.
 }

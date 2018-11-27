@@ -19,6 +19,9 @@ lasso_cd(lambdas, x, y, n_it = 100, wt, ...)
 
 \item{beta0}{Initial guess of the regression coefficients}
 }
+\value{
+The function returns the coefficient of the predictors for each lambda.
+}
 \description{
-Coefficient path (cd)
+This function is to be used for getting co-efficient path using co-ordinate descent optimization
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv_lasso.R
 \name{cv.plot}
 \alias{cv.plot}
-\title{cv curve plot}
+\title{Cross-validation plot}
 \usage{
 cv.plot(cv, main = NULL)
 }
@@ -12,5 +12,5 @@ cv.plot(cv, main = NULL)
 \item{main}{Title of the plot.}
 }
 \description{
-cv curve plot
+Plots the cross-valiadtion curve
 }

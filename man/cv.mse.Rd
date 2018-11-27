@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv_lasso.R
 \name{cv.mse}
 \alias{cv.mse}
-\title{root mean-squared error}
+\title{Root mean-squared error}
 \usage{
 cv.mse(original, estimate)
 }
@@ -11,6 +11,9 @@ cv.mse(original, estimate)
 
 \item{estimate}{estimated value}
 }
+\value{
+The root-mean squared error
+}
 \description{
-root mean-squared error
+For internal use
 }

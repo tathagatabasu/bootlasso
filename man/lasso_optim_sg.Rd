@@ -19,6 +19,9 @@ lasso_optim_sg(lambda, x, y, beta0, ts, wt)
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
+\value{
+The function returns the coefficient of the predictors.
+}
 \description{
-LASSO optimization (sub-gradient method)
+This function is to be used for solving LASSO optimization using sub-gradient method
 }

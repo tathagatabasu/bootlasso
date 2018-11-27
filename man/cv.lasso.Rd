@@ -2,34 +2,37 @@
 % Please edit documentation in R/cv_lasso.R
 \name{cv.lasso}
 \alias{cv.lasso}
-\title{Cross-validation Tools
-cross-validation}
+\title{Cross-validation}
 \usage{
 cv.lasso(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd,
   k = 5, n_it = 10, df = NULL)
 }
 \arguments{
-\item{lambdas}{penalty parameter}
+\item{lambdas}{values of the penalty parameter}
 
 \item{x}{predictors}
 
 \item{y}{response}
 
-\item{wt}{weights for the coefficients of weighted LASSO.}
+\item{wt}{weights for the coefficients of weighted LASSO. Defaults to NULL}
 
-\item{ts}{sequence of stepsize (for lasso_sg, lasso_pg)}
+\item{ts}{stepsize for proximal gradient and sub-gradient method (use opt_ts() to generate stepsize). Defaults to NULL}
 
-\item{method}{lasso optimization function}
+\item{method}{lasso optimization function.  Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg). Defaults to lasso_cd}
 
-\item{k}{number of fold}
+\item{k}{number of fold. Default value is 5.}
 
-\item{n_it}{number of iteration for lasso_cd method}
+\item{n_it}{number of iteration for lasso_cd method. Default value is 10.}
 
-\item{df}{Degree of freedom. Number of desired variables to be zero.}
-
-\item{beta0}{initial guess of beta}
+\item{df}{Degree of freedom. Number of desired variables to be zero. Defaults to NULL}
+}
+\value{
+The function returns the  following list of outputs
+\item{model}{The values of coefficients corresponding to each lambda}
+\item{error}{Mean-squared error of the cross-validated model corresponding to each lambda}
+\item{coeff}{The values of coefficients corresponding to minimum mean-squared error}
+\item{index}{Index of the minimum mean-squared error (for internal use)}
 }
 \description{
-Cross-validation Tools
-cross-validation
+Cross-validation for lasso
 }

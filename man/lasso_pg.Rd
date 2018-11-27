@@ -19,6 +19,9 @@ lasso_pg(lambdas, x, y, beta0, ts, wt, ...)
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
+\value{
+The function returns the coefficient of the predictors for each lambda.
+}
 \description{
-Coefficient path (pg)
+This function is to be used for getting co-efficient path using proximal-gradient optimization
 }
