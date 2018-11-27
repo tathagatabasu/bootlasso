@@ -137,7 +137,6 @@ boot.lasso = function(lambdas, x, y, wt = NULL, ts = NULL,
   
   #coefficient distribution
   
-  x11()
   boxplot(store.matrix,
           main = "Boxplot of Regression Coefficients",
           ylab = "value of coeffs")

@@ -263,7 +263,7 @@ example.cv = function(wt=NULL)
   test.cv = cv.lasso(lambdas, x, y, wt = wt)
   
   cv.plot(test.cv, main = "Cross-validation error (LASSO using co-ordinate descent)")
-  x11()
+  
   lasso.plot(test.cv, main = "LASSO using co-ordinate descent")
   
   cat(sprintf("Least Square Model \n"))
