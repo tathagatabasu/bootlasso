@@ -201,7 +201,7 @@ lasso.plot = function(cv, main=NULL)
   x = cv$model[1,]
   
   matplot(log(cv$model[1,]), t(cv$model[2:nrow(cv$model),]), type = "l", 
-          xlab = expression(paste(log(lambdas))),
+          xlab = expression(paste(log(lambda))),
           ylab = "Coefficients", ylim = c(y.lim.bel, y.lim.up),
           main = main,
           lty = 1, col = 1:6)
@@ -228,7 +228,7 @@ cv.plot = function(cv, main=NULL)
   xHigh = x
   xLow = x
   
-  plot(x, y, xlab = expression(paste(log(lambdas))),
+  plot(x, y, xlab = expression(paste(log(lambda))),
        ylab="mean-squared error",
        main=main, 
        ylim = c(min(yLow), max(yHigh)), col = "red", pch = 20)
