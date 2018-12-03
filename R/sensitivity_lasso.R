@@ -23,17 +23,17 @@
 #' @return The function returns the summary of sensitivity analysis.
 #' @export
 
-
-
 sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50)
 	{
 	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt / 100 * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
 	
-	cv = lapply(1:nsim, function(i) cv.lasso(lambdas = lambdas, x = x, y = y, wt = wts[i,], ts = ts, method = method, k = k, n_it = n_it, df = df))
-	coeff = lapply(1:nsim, function(i) cv[[i]]$coeff)
-				   
-	out = matrix(unlist(coeff), nrow = ncol(x)+2, ncol = nsim)
-	coef = out[2:(ncol(x)+1),]
+	cv = cv.lasso(lambdas = lambdas, x = x, y = y, wt = wt, ts = ts, method = method, k = k, n_it = n_it, df = df)
+	out = cv$coeff
+	
+	beta = out[2:(ncol(x)+1)]
+	lambda = out[1]
+	
+	coef = sapply(1:nsim, function(i)lasso_optim_cd(lambda = lambda, x, y, beta0 = beta, n_it = 100, wts[i,]))
 	
 	rownames(coef)[1:nrow(coef)] = sprintf("var %d", 1:nrow(coef))
 	
@@ -46,5 +46,32 @@ sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
     abline(h = 0, lty = 2)
     legend("topright", legend = c("mean"), col = c("red"), pch = c(19), lty = 1, cex = 0.8)
 	
-	return(summary(coef))
+	return(summary(t(coef)))
 	}
+
+###################################################################################################
+
+#' Example
+#'
+#' Example to check cross-validation for LASSO.
+#' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
+#' @param nsim number simulations with perturbed weights. Default value is 200.
+#' @export
+
+example.sensitivity = function(wt=NULL, nsim = 200)
+{
+  cat(sprintf("\nSimulated Dataset: 24 predictors and 50 observations, no of fold is 5.\n\n"))
+  x = matrix(data = rnorm(1200), nrow = 50, ncol = 24)
+  b = as.matrix(rep(c(-3,-2,-1,1,2,3), 4))
+  er = as.matrix(rnorm(50))
+  y = x %*% b + er
+  if ((is.null(wt) == T)|(length(wt) != length(b)))
+    wt = rep(1, length(b))
+  else
+    wt = length(b) * wt/sum(wt)
+  
+  lambdas = exp(seq(-5,3,0.1))
+  
+  sensitivity_lasso(lambdas, x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim)
+  
+}
