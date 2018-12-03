@@ -26,10 +26,10 @@
 sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50)
 	{
 	
-	if ((is.null(wt) == T)|(length(wt) != length(beta0)))
-		wt = rep(1, length(beta0))
+	if ((is.null(wt) == T)|(length(wt) != ncol(x)))
+		wt = rep(1, ncol(x))
 	else
-		wt = length(beta0) * wt / sum(wt)
+		wt = ncol(x) * wt / sum(wt)
 
 	
 	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt / 100 * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
