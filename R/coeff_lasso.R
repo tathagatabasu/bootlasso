@@ -182,7 +182,7 @@ lasso_pg = function(lambdas, x, y, beta0, ts, wt, ...) {
 #' @export
 
 lasso_cd = function(lambdas, x, y, n_it=100, wt, ...){
-  beta0 = as.matrix(rep(1, ncol(x)))
+  beta0 = as.matrix(rep(0, ncol(x)))
   betas = lapply(lambdas, function(lambda) lasso_optim_cd(lambda, x, y, beta0, n_it, wt))
   return(betas)
 }
