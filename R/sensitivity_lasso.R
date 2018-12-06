@@ -20,10 +20,11 @@
 #' @param n_it number of iteration for lasso_cd method. Default value is 10.
 #' @param df Degree of freedom. Number of desired variables to be zero. Defaults to NULL
 #' @param nsim number of perturbed weights. Default value is 50
+#' @param rel_err Relative purturbed error. Default value is 1
 #' @return The function returns the summary of sensitivity analysis.
 #' @export
 
-sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50)
+sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50, rel_err = 1)
 	{
 	
 	if ((is.null(wt) == T)|(length(wt) != ncol(x)))
@@ -32,7 +33,7 @@ sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
 		wt = ncol(x) * wt / sum(wt)
 
 	
-	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt / 100 * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
+	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt * (rel_err / 100) * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
 	
 	cv = cv.lasso(lambdas = lambdas, x = x, y = y, wt = wt, ts = ts, method = method, k = k, n_it = n_it, df = df)
 	out = cv$coeff
@@ -63,9 +64,10 @@ sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
 #' Example to check cross-validation for LASSO.
 #' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
 #' @param nsim number simulations with perturbed weights. Default value is 200.
+#' @param rel_err Relative purturbed error. Default value is 1
 #' @export
 
-example.sensitivity = function(wt=NULL, nsim = 200)
+example.sensitivity = function(wt=NULL, nsim = 200, rel_err = 1)
 {
   cat(sprintf("\nSimulated Dataset: 24 predictors and 50 observations, no of fold is 5.\n\n"))
   x = matrix(data = rnorm(1200), nrow = 50, ncol = 24)
@@ -79,6 +81,6 @@ example.sensitivity = function(wt=NULL, nsim = 200)
   
   lambdas = exp(seq(-5,3,0.1))
   
-  sensitivity_lasso(lambdas, x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim)
+  sensitivity_lasso(lambdas, x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim, rel_err = rel_err)
   
 }

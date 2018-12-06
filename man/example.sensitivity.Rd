@@ -4,12 +4,14 @@
 \alias{example.sensitivity}
 \title{Example}
 \usage{
-example.sensitivity(wt = NULL, nsim = 200)
+example.sensitivity(wt = NULL, nsim = 200, rel_err = 1)
 }
 \arguments{
 \item{wt}{weights for the coefficients of weighted LASSO. Defaults to NULL}
 
 \item{nsim}{number simulations with perturbed weights. Default value is 200.}
+
+\item{rel_err}{Relative purturbed error. Default value is 1}
 }
 \description{
 Example to check cross-validation for LASSO.

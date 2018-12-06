@@ -5,7 +5,8 @@
 \title{Perturbation of weights}
 \usage{
 sensitivity_lasso(lambdas, x, y, wt = NULL, ts = NULL,
-  method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50)
+  method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50,
+  rel_err = 1)
 }
 \arguments{
 \item{lambdas}{values of the penalty parameter}
@@ -27,6 +28,8 @@ sensitivity_lasso(lambdas, x, y, wt = NULL, ts = NULL,
 \item{df}{Degree of freedom. Number of desired variables to be zero. Defaults to NULL}
 
 \item{nsim}{number of perturbed weights. Default value is 50}
+
+\item{rel_err}{Relative purturbed error. Default value is 1}
 }
 \value{
 The function returns the summary of sensitivity analysis.
