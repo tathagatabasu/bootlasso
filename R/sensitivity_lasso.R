@@ -24,7 +24,7 @@
 #' @return The function returns the summary of sensitivity analysis.
 #' @export
 
-sensitivity_lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50, rel_err = 1)
+sensitivity.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50, rel_err = 1)
 	{
 	
 	if ((is.null(wt) == T)|(length(wt) != ncol(x)))
