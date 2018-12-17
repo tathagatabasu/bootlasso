@@ -55,6 +55,9 @@ imp.lasso = function(lambda, x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd,
 	}
 
 	betabound = cbind(betalow, betaup)
+	
+	rownames(betabound)[1:nrow(betabound)] = sprintf("var %d", 1:nrow(betabound))
+	colnames(betabound)[1] = "low"; colnames(betabound)[2] = "up"
 
 	return(betabound)
 }
