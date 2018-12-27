@@ -41,7 +41,7 @@ sensitivity.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
 	beta = out[2:(ncol(x)+1)]
 	lambda = out[1]
 	
-	coef = sapply(1:nsim, function(i)lasso_optim_cd(lambda = lambda, x, y, beta0 = beta, n_it = 100, wts[i,]))
+	coef = sapply(1:nsim, function(i)unlist(method(lambda = lambda, x, y, n_it = 100, wts[i,])))
 	
 	rownames(coef)[1:nrow(coef)] = sprintf("var %d", 1:nrow(coef))
 	
@@ -81,6 +81,6 @@ example.sensitivity = function(wt=NULL, nsim = 200, rel_err = 1)
   
   lambdas = exp(seq(-5,3,0.1))
   
-  sensitivity_lasso(lambdas, x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim, rel_err = rel_err)
+  sensitivity.lasso(lambdas, x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim, rel_err = rel_err)
   
 }
