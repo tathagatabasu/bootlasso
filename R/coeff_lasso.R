@@ -91,6 +91,10 @@ square_lasso_df = function(lambda, x, y, beta, wt)
 #' @export
 
 lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
+  if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
+     wt = rep(1, ncol(x))
+  else wt = ncol(x) * wt/sum(wt)
+  
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
   df = function(beta) square_lasso_df(lambda, x, y, beta, wt)
   sg_optim(x = beta0, f = f, df = df, ts = ts)
@@ -109,6 +113,10 @@ lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
 #' @export
 
 lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
+  if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
+     wt = rep(1, ncol(x))
+  else wt = ncol(x) * wt/sum(wt)
+  
   f = function(beta) square_f(x, y, beta)
   df = function(beta) square_df(x, y, beta)
   pg = lasso_p(lambda, wt)
@@ -128,6 +136,10 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
 #' @export
 
 lasso_optim_cd = function(lambda, x, y, beta0, n_it = 100, wt){
+  if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
+     wt = rep(1, ncol(x))
+  else wt = ncol(x) * wt/sum(wt)
+  
   s = soft(lambda, wt)
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
   v = function(i, beta) st_f(i, x, y, beta)
