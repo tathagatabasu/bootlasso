@@ -32,16 +32,19 @@ sensitivity.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
 	else
 		wt = ncol(x) * wt / sum(wt)
 
-	
 	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt * (rel_err / 100) * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
 	
-	cv = cv.lasso(lambdas = lambdas, x = x, y = y, wt = wt, ts = ts, method = method, k = k, n_it = n_it, df = df)
-	out = cv$coeff
+	sensty= function(lambdas, x, y, wt, ts, method, k, n_it, df)
+	{
+	  cv = cv.lasso(lambdas = lambdas, x = x, y = y, wt = wt, ts = ts, method = method, k = k, n_it = n_it, df = df)
+	  out = cv$coeff
+	  
+	  beta = out[2:(ncol(x)+1)]
+	  return(beta)
+	}
 	
-	beta = out[2:(ncol(x)+1)]
-	lambda = out[1]
-	
-	coef = sapply(1:nsim, function(i)unlist(method(lambda = lambda, x, y, n_it = 100, wts[i,])))
+	coef = sapply(1:nsim, function(i)unlist(sensty(lambdas = lambdas, x = x, y = y, wt = wts[i,], 
+	                                               ts = ts, method = method, k = k, n_it = n_it, df = df)))
 	
 	rownames(coef)[1:nrow(coef)] = sprintf("var %d", 1:nrow(coef))
 	
