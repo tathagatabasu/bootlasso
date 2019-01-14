@@ -48,6 +48,33 @@ sensitivity.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
 	
 	rownames(coef)[1:nrow(coef)] = sprintf("var %d", 1:nrow(coef))
 	
+	#-----------------------------------------------------------------------------
+    # Means, medians and SDs of the bootstrapped statistics
+    #-----------------------------------------------------------------------------
+  
+    sensty.means = rowMeans(coef, na.rm=T)
+  
+    sensty.medians = apply(coef, 1, median, na.rm=T)
+  
+    sensty.sds = apply(coef, 1, sd, na.rm=T)
+  
+    #-----------------------------------------------------------------------------
+    # Basic bootstrap CIs
+    #-----------------------------------------------------------------------------
+  
+    conf.mat = matrix(apply(coef, 1 ,quantile, c(0.025, 0.975), na.rm=T),
+                     ncol=2, byrow=TRUE)
+    colnames(conf.mat) = c("95%-CI Lower", "95%-CI Upper")
+  
+    #-----------------------------------------------------------------------------
+    # Summary
+    #-----------------------------------------------------------------------------
+  
+    summary.frame = data.frame(mean=sensty.means, median=sensty.medians, sd=sensty.sds, 
+                              "CI_lower" = conf.mat[,1], "CI_upper" = conf.mat[,2])
+    sensty_summary = summary.frame
+  
+  
 	#coefficient distribution plot
   
     boxplot(t(coef),
@@ -57,7 +84,7 @@ sensitivity.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso
     abline(h = 0, lty = 2)
     legend("topright", legend = c("mean"), col = c("red"), pch = c(19), lty = 1, cex = 0.8)
 	
-	return(summary(t(coef)))
+	return(sensty_summary)
 	}
 
 ###################################################################################################
