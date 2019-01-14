@@ -10,5 +10,5 @@ example_lasso_2(wt = NULL)
 \item{wt}{weights for the coefficients of weighted LASSO. Defaults to NULL}
 }
 \description{
-Example 1 of LASSO using different optimization techniques
+Example 2 of LASSO using different optimization techniques
 }

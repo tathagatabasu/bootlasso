@@ -19,6 +19,9 @@ lasso_optim_cd(lambda, x, y, beta0, n_it = 100, wt)
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
+\value{
+The function returns the coefficient of the predictors.
+}
 \description{
 This function is to be used for solving LASSO optimization using co-ordinate descent method
 }

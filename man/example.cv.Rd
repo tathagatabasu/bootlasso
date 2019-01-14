@@ -2,13 +2,13 @@
 % Please edit documentation in R/cv_lasso.R
 \name{example.cv}
 \alias{example.cv}
-\title{Examples}
+\title{Example}
 \usage{
 example.cv(wt = NULL)
 }
 \arguments{
-\item{wt}{weights for the coefficients of weighted LASSO.}
+\item{wt}{weights for the coefficients of weighted LASSO. Defaults to NULL}
 }
 \description{
-Examples
+Example to check cross-validation for LASSO.
 }

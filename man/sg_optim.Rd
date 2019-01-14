@@ -2,7 +2,7 @@
 % Please edit documentation in R/opt_lasso.R
 \name{sg_optim}
 \alias{sg_optim}
-\title{Subgradient optimization.}
+\title{Sub-gradient optimization.}
 \usage{
 sg_optim(x, f, df, ts)
 }
@@ -13,8 +13,11 @@ sg_optim(x, f, df, ts)
 
 \item{df}{Any subgradient of f.}
 
-\item{ts}{Sequence of step sizes.}
+\item{ts}{Sequence of step sizes. use opt_ts() for stepsize generation}
+}
+\value{
+The function returns the optimal solution
 }
 \description{
-Subgradient optimization.
+Function for sub-gradient optimization for non-differentiable functions
 }

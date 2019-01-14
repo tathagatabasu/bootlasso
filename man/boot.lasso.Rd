@@ -4,31 +4,33 @@
 \alias{boot.lasso}
 \title{Bootstrap for LASSO.}
 \usage{
-boot.lasso(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1,
-  1000, 1000), method = lasso_cd, k = 5, n_it = 100, n.sim = 500,
-  rel_er = 0)
+boot.lasso(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd,
+  k = 5, n_it = 10, df = NULL, n.sim = 500)
 }
 \arguments{
 \item{lambdas}{values of the penalty parameter}
 
-\item{x}{Predictors}
+\item{x}{predictors}
 
-\item{y}{Response}
+\item{y}{response}
 
-\item{beta0}{Initial guess of regression co-efficients}
+\item{wt}{weights for the coefficients of weighted LASSO. Defaults to NULL}
 
-\item{ts}{Stepsize for proximal gradient and sub-gradient method. Use opt_ts() to create your own.}
+\item{ts}{stepsize for proximal gradient and sub-gradient method (use opt_ts() to generate stepsize). Defaults to NULL}
 
-\item{method}{Optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg)}
+\item{method}{optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg). Defaults to lasso_cd}
 
-\item{k}{No. of folds for cross-validation. Default value is 5.}
+\item{k}{no. of folds for cross-validation. Default value is 5.}
 
-\item{n_it}{No. of iteration for lasso_cd optimization. Default is 100.}
+\item{n_it}{no. of iteration for lasso_cd optimization. Default value is 10.}
 
-\item{n.sim}{No. of bootstrap replicates. Default is 500.}
+\item{df}{degree of freedom. Number of desired variables to be zero. Defaults to NULL}
 
-\item{rel_er}{Relative error. Should be between 0 (minimum error) and 1 (maximum error).}
+\item{n.sim}{no. of bootstrap replicates. Default value is 500.}
+}
+\value{
+The summary frame of the bootstrap comprising mean, median, bias, standard deviation and confidence intervals.
 }
 \description{
-Bootstrap for LASSO.
+Function for getting bootstrap estimates for LASSO.
 }

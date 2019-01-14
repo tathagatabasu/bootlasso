@@ -1,19 +1,30 @@
+###################################################################################################
+#
+# Bootstrap for LASSO
+#
+# Tathagata Basu
+# 11 Oct 2018
+#
+###################################################################################################
+
 #' Bootstrap for LASSO.
 #'
+#' Function for getting bootstrap estimates for LASSO.
 #' @param lambdas values of the penalty parameter
-#' @param x Predictors 
-#' @param y Response
-#' @param beta0 Initial guess of regression co-efficients
-#' @param ts Stepsize for proximal gradient and sub-gradient method. Use opt_ts() to create your own.
-#' @param method Optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg)
-#' @param k No. of folds for cross-validation. Default value is 5.
-#' @param n_it No. of iteration for lasso_cd optimization. Default is 100.
-#' @param n.sim No. of bootstrap replicates. Default is 500.
-#' @param rel_er Relative error. Should be between 0 (minimum error) and 1 (maximum error).
+#' @param x predictors 
+#' @param y response
+#' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
+#' @param ts stepsize for proximal gradient and sub-gradient method (use opt_ts() to generate stepsize). Defaults to NULL
+#' @param method optimization method. Three different methods are available to use. method = c(lasso_cd, lasso_sg, lasso_pg). Defaults to lasso_cd
+#' @param k no. of folds for cross-validation. Default value is 5.
+#' @param n_it no. of iteration for lasso_cd optimization. Default value is 10.
+#' @param df degree of freedom. Number of desired variables to be zero. Defaults to NULL
+#' @param n.sim no. of bootstrap replicates. Default value is 500.
+#' @return The summary frame of the bootstrap comprising mean, median, bias, standard deviation and confidence intervals.
 #' @export
 
-boot.lasso = function(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1, 1000, 1000), 
-                      method = lasso_cd, k = 5, n_it = 100, n.sim = 500, rel_er = 0)
+boot.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, 
+                      method = lasso_cd, k = 5, n_it = 10, df = NULL, n.sim = 500)
   {
 
   #-----------------------------------------------------------------------------
@@ -22,9 +33,9 @@ boot.lasso = function(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1, 1
   
   cv1 = function(x, y)
     {
-    data.cv.temp = cv.lasso(lambdas, x, y, beta0 = beta0, ts = ts, 
-                            method = method, n_it = n_it, k = k, rel_er = rel_er)
-    data.fitlasso = data.cv.temp$coeff[-1]
+    data.cv.temp = cv.lasso(lambdas, x, y, wt = wt, ts = ts, 
+                            method = method, n_it = n_it, k = k, df =df)
+    data.fitlasso = data.cv.temp$coeff[2:(ncol(x)+1)]
     
     lc = as.matrix(data.fitlasso)
     return(lc)
@@ -65,11 +76,11 @@ boot.lasso = function(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1, 1
     # Bootstrap function
     #-----------------------------------------------------------------------------
     
-    cv <- function(X.new, Y.new)
+    cv <- function(x, y)
       {
-      data.cv.temp = cv.lasso(lambdas, x, y, beta0 = beta0, ts = ts, 
-                              method = method, n_it = n_it, k = k, rel_er = rel_er)
-      data.fitlasso = data.cv.temp$coeff[-1]
+      data.cv.temp = cv.lasso(lambdas, x, y, wt = wt, ts = ts, 
+                            method = method, n_it = n_it, k = k, df =df)
+      data.fitlasso = data.cv.temp$coeff[2:(ncol(x)+1)]
       
       lc = as.matrix(data.fitlasso)
       return(lc)
@@ -126,7 +137,6 @@ boot.lasso = function(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1, 1
   
   #coefficient distribution
   
-  
   boxplot(store.matrix,
           main = "Boxplot of Regression Coefficients",
           ylab = "value of coeffs")
@@ -137,10 +147,13 @@ boot.lasso = function(lambdas, x, y, beta0 = rep(0, ncol(x)), ts = opt_ts(0.1, 1
   return(boot)
 }
 
-#' Examples
-#' @param rel_er Relative error. Should be between 0 (minimum error) and 1 (maximum error).
+#' Example
+#'
+#' Example to check boot-strap LASSO
+#' @param n.sim No. of bootstrap replicates. Default value is 200.
 #' @export
-example.boot = function(rel_er)
+
+example.boot = function(n.sim = 200)
 {
   cat(sprintf("\nSimulated Dataset: 24 predictors and 50 observations, no of fold is 5.\n\n"))
   x = matrix(data = rnorm(1200), nrow = 50, ncol = 24)
@@ -149,11 +162,8 @@ example.boot = function(rel_er)
   y = x %*% b + er
   
   lambdas = exp(seq(-5,2,0.1))
-  beta0 = b
-  ts = opt_ts(0.1, 1000, 1000)
   
-  boot.test = boot.lasso(lambdas, x, y, beta0, ts, 
-                             method = lasso_cd, k = 5, n_it = 10, n.sim = 200, rel_er = rel_er)
+  boot.test = boot.lasso(lambdas, x, y, n.sim = n.sim)
   
   cat(sprintf("Least Square Model \n"))
   print(lm(y ~ x - 1))

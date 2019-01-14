@@ -2,7 +2,7 @@
 % Please edit documentation in R/opt_lasso.R
 \name{opt_ts}
 \alias{opt_ts}
-\title{Generate a sequence of step sizes for optimization.}
+\title{Sequence of step sizes for optimization.}
 \usage{
 opt_ts(t, m, n)
 }
@@ -13,6 +13,9 @@ opt_ts(t, m, n)
 
 \item{n}{Number of diminishing steps.}
 }
+\value{
+The sequence of stepsize
+}
 \description{
-Generate a sequence of step sizes for optimization.
+Function to generate stepsize for sub-gradient optimization and proximal-gradient optimization
 }

@@ -4,9 +4,11 @@
 \alias{lasso_cd_plot}
 \title{cd plot}
 \usage{
-lasso_cd_plot(x, y, n_it = 100, wt)
+lasso_cd_plot(lambdas, x, y, n_it = 100, wt)
 }
 \arguments{
+\item{lambdas}{Values of the penalty term}
+
 \item{x}{Predictors}
 
 \item{y}{Response}
@@ -14,6 +16,8 @@ lasso_cd_plot(x, y, n_it = 100, wt)
 \item{n_it}{Number of iterations. Default value 100}
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
+
+\item{beta0}{Initial guess of the regression coefficients}
 }
 \description{
 Plots the co-efficient path using co-ordinate descent optimization

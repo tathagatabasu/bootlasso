@@ -4,16 +4,23 @@
 \alias{lasso_sg}
 \title{Coefficient path (sg)}
 \usage{
-lasso_sg(x, y, ts, wt, ...)
+lasso_sg(lambdas, x, y, beta0, ts, wt, ...)
 }
 \arguments{
+\item{lambdas}{Values of the penalty term}
+
 \item{x}{Predictors}
 
 \item{y}{Response}
 
+\item{beta0}{Initial guess of the regression coefficients}
+
 \item{ts}{Stepsize for optimization method}
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
+}
+\value{
+The function returns the coefficient of the predictors for each lambda.
 }
 \description{
 This function is to be used for getting co-efficient path using sub-gradient optimization
