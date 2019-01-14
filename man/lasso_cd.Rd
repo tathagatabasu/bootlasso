@@ -4,11 +4,9 @@
 \alias{lasso_cd}
 \title{Coefficient path (cd)}
 \usage{
-lasso_cd(lambdas, x, y, n_it = 100, wt, ...)
+lasso_cd(x, y, n_it = 100, wt, ...)
 }
 \arguments{
-\item{lambdas}{Values of the penalty term}
-
 \item{x}{Predictors}
 
 \item{y}{Response}
@@ -16,8 +14,6 @@ lasso_cd(lambdas, x, y, n_it = 100, wt, ...)
 \item{n_it}{Number of iterations. Default value 100.}
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
-
-\item{beta0}{Initial guess of the regression coefficients}
 }
 \description{
 Coefficient path (cd)

@@ -4,16 +4,12 @@
 \alias{lasso_pg}
 \title{Coefficient path (pg)}
 \usage{
-lasso_pg(lambdas, x, y, beta0, ts, wt, ...)
+lasso_pg(x, y, ts, wt, ...)
 }
 \arguments{
-\item{lambdas}{Values of the penalty term}
-
 \item{x}{Predictors}
 
 \item{y}{Response}
-
-\item{beta0}{Initial guess of the regression coefficients}
 
 \item{ts}{Stepsize for optimization method}
 

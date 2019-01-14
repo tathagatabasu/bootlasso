@@ -2,10 +2,13 @@
 % Please edit documentation in R/coeff_lasso.R
 \name{example_lasso_2}
 \alias{example_lasso_2}
-\title{Examples 2}
+\title{Example}
 \usage{
 example_lasso_2(wt = NULL)
 }
+\arguments{
+\item{wt}{weights for the coefficients of weighted LASSO. Defaults to NULL}
+}
 \description{
-Examples 2
+Example 1 of LASSO using different optimization techniques
 }

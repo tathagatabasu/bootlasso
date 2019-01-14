@@ -10,48 +10,77 @@
 ###########################################################################
 
 #' OLS term
+#'
+#' For internal use
 #' @export
+
 square_f = function(x, y, beta)
   sum((y - x %*% beta)^2) / (2 * nrow(x))
 
 #' OLS differential
+#'
+#' For internal use
 #' @export
+
 square_df = function(x, y, beta)
   -t(x) %*% (y - x %*% beta) / nrow(x)
 
 #' LASSO penalty term
+#'
+#' For internal use
 #' @export
+
 lasso_f = function(lambda, beta, wt) lambda * sum(abs(beta * wt))
 
 
 #' LASSO penalty subgradient (Note: not actual gradient.)
+#'
+#' For internal use
 #' @export
+
 lasso_df = function(lambda, beta, wt) lambda * sign(beta) * wt
 
 #' Proximal operator for lasso_f.
+#'
+#' For internal use
 #' @export
+
 lasso_p = function(lambda, wt) function(t, x) sign(x) * pmax(0, abs(x) - lambda * t * wt)
 
 #' Soft threshold operator
+#'
+#' For internal use
 #' @export
+
 soft  = function(lambda, wt)function(x, i) sign(x) * max(0, abs(x) - lambda * wt[i])
 
 #' CD LASSO Soft Threshold term
+#'
+#' For internal use
 #' @export
+
 st_f = function(i, x, y, beta)
   t(x[,i]) %*% (y - x[,-i] %*% beta[-i]) / (t(x[,i]) %*% x[,i])
 
 #' LASSO objective
+#'
+#' For internal use
 #' @export
+
 square_lasso_f = function(lambda, x, y, beta, wt)
   square_f(x, y, beta) + lasso_f(lambda, beta, wt)
 
 #' LASSO sub-gradient
+#'
+#' For internal use
 #' @export
+
 square_lasso_df = function(lambda, x, y, beta, wt)
   square_df(x, y, beta) + lasso_df(lambda, beta, wt)
 
 #' LASSO optimization (sub-gradient method)
+#'
+#' This function is to be used for solving LASSO optimization using sub-gradient method
 #' @param lambda Penalty term
 #' @param x Predictors
 #' @param y Response
@@ -59,6 +88,7 @@ square_lasso_df = function(lambda, x, y, beta, wt)
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
   df = function(beta) square_lasso_df(lambda, x, y, beta, wt)
@@ -66,6 +96,8 @@ lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
 }
 
 #' LASSO optimization (proximal gradient)
+#'
+#' This function is to be used for solving LASSO optimization using proximal-gradient method
 #' @param lambda Penalty term
 #' @param x Predictors
 #' @param y Response
@@ -73,6 +105,7 @@ lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
   f = function(beta) square_f(x, y, beta)
   df = function(beta) square_df(x, y, beta)
@@ -80,7 +113,9 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
   pg_optim(x = beta0, f = f, df = df, pg = pg, ts = ts)
 }
 
-#' LASSO optimization using coordinate descent
+#' LASSO optimization using co-ordinate descent
+#'
+#' This function is to be used for solving LASSO optimization using co-ordinate descent method
 #' @param lambda Penalty term
 #' @param x Predictors
 #' @param y Response
@@ -88,6 +123,7 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
 #' @param n_it Number of iterations. Default value 100
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_optim_cd = function(lambda, x, y, beta0, n_it = 100, wt){
   s = soft(lambda, wt)
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
@@ -96,11 +132,14 @@ lasso_optim_cd = function(lambda, x, y, beta0, n_it = 100, wt){
 }
 
 #' Coefficient path (sg)
+#'
+#' This function is to be used for getting co-efficient path using sub-gradient optimization 
 #' @param x Predictors
 #' @param y Response
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_sg = function(x, y, ts, wt, ...) {
   
   beta0 = as.matrix(rep(1, ncol(x)))
@@ -121,11 +160,14 @@ lasso_sg = function(x, y, ts, wt, ...) {
 }
 
 #' Coefficient path (pg)
+#'
+#' This function is to be used for getting co-efficient path using proximal-gradient optimization
 #' @param x Predictors
 #' @param y Response
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_pg = function(x, y, ts, wt, ...) {
   
   beta0 = as.matrix(rep(1, ncol(x)))
@@ -146,6 +188,8 @@ lasso_pg = function(x, y, ts, wt, ...) {
 }
 
 #' Coefficient path (cd)
+#'
+#' This function is to be used for getting co-efficient path using co-ordinate descent optimization
 #' @param x Predictors
 #' @param y Response
 #' @param n_it Number of iterations. Default value 100.
@@ -172,11 +216,14 @@ lasso_cd = function(x, y, n_it=100, wt, ...){
 }
 
 #' sg Plot
+#'
+#' Plots the co-efficient path using sub-gradient optimization
 #' @param x Predictors
 #' @param y Response
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_sg_plot = function(x, y, ts, wt) {
   out = lasso_sg(x, y, ts, wt)
   matplot(
@@ -187,11 +234,14 @@ lasso_sg_plot = function(x, y, ts, wt) {
 }
 
 #' pg plot
+#'
+#' Plots the co-efficient path using proximal-gradient optimization
 #' @param x Predictors
 #' @param y Response
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_pg_plot = function(x, y, ts, wt) {
   out = lasso_pg(x, y, ts, wt)
   matplot(
@@ -202,11 +252,14 @@ lasso_pg_plot = function(x, y, ts, wt) {
 }
 
 #' cd plot
+#'
+#' Plots the co-efficient path using co-ordinate descent optimization
 #' @param x Predictors
 #' @param y Response
 #' @param n_it Number of iterations. Default value 100
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
+
 lasso_cd_plot = function(x, y, n_it = 100, wt) {
   out = lasso_cd(x, y, n_it, wt)
   matplot(
