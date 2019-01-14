@@ -27,11 +27,15 @@
 
 cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL)
 {
+  x = scale(x, center = TRUE, scale = F)
+  y = scale(y, center = TRUE, scale = F)
+
   data.partition = cv.random.partition(x, y, k = k)
   lmax = 1/nrow(x)*max(abs(t(x)%*%y))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   colnames(lambdas) = "lambda"
   
+
   if ((is.null(wt) == T)|(length(wt) != ncol(x)))
     wt = rep(1, ncol(x))
   else
@@ -77,33 +81,25 @@ cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it =
   me = colMeans(e)
   cv.error.index = max(which(me <= (min(me))))
   
-  nvar = as.matrix(colSums(beta != 0))
-  vdf = ncol(x) - nvar; colnames(vdf) = "df"
+  vdf = as.matrix(colSums(beta != 0))
   er = as.matrix(me); colnames(er) = "error"
   cv.df = cbind(lambdas, vdf, er)
-  
-  s = min(which(nvar == 0))
-  
-  if (s == Inf)
-    s = length(lambdas)
-	
-  if(cv.error.index > s)
-    cv.error.index = s
-  
+  colnames(cv.df)[2] = "df"
+
   mse = mean(e[,cv.error.index])
   cv.coef = c(m[,cv.error.index], mse)
   names(cv.coef)[length(cv.coef)] = "mse"
   
   if(is.null(df)==F)
   {
-    cv.error.index = which(colMeans(e)==min(colMeans(e)[which(nvar <= (ncol(x) - df))]))
+    cv.error.index = which(colMeans(e)==min(colMeans(e)[which(vdf <= df)]))
     mse = mean(e[,cv.error.index])
     cv.coef = c(m[,cv.error.index], mse)
     names(cv.coef)[length(cv.coef)] = "mse"
   }
   
-  output = list("model" = cv.model[,1:s], "error" = cv.error[,1:s], "coeff" = cv.coef, "index" = cv.error.index,
-                "df" = cv.df[1:s,])
+  output = list("model" = cv.model, "error" = cv.error, "coeff" = cv.coef, "index" = cv.error.index,
+                "df" = cv.df)
   return(output)
 }
 
