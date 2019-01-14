@@ -10,7 +10,6 @@
 #' Perturbation of weights
 #'
 #' Sensitivity analysis of predictors using perturbed weights
-#' @param lambdas values of the penalty parameter
 #' @param x predictors
 #' @param y response
 #' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
@@ -24,26 +23,28 @@
 #' @return The function returns the summary of sensitivity analysis.
 #' @export
 
-sensitivity.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50, rel_err = 1)
+sensitivity.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50, rel_err = 1)
 	{
 	
 	if ((is.null(wt) == T)|(length(wt) != ncol(x)))
 		wt = rep(1, ncol(x))
 	else
 		wt = ncol(x) * wt / sum(wt)
-
+	
+	lmax = 1/nrow(x)*max(abs(t(x)%*%y))
+	lambdas = exp(seq(-5, log(lmax), length.out = 51))
 	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt * (rel_err / 100) * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
 	
-	sensty= function(lambdas, x, y, wt, ts, method, k, n_it, df)
+	sensty= function(x, y, wt, ts, method, k, n_it, df)
 	{
-	  cv = cv.lasso(lambdas = lambdas, x = x, y = y, wt = wt, ts = ts, method = method, k = k, n_it = n_it, df = df)
+	  cv = cv.lasso(x = x, y = y, wt = wt, ts = ts, method = method, k = k, n_it = n_it, df = df)
 	  out = cv$coeff
 	  
 	  beta = out[2:(ncol(x)+1)]
 	  return(beta)
 	}
 	
-	coef = sapply(1:nsim, function(i)unlist(sensty(lambdas = lambdas, x = x, y = y, wt = wts[i,], 
+	coef = sapply(1:nsim, function(i)unlist(sensty(x = x, y = y, wt = wts[i,], 
 	                                               ts = ts, method = method, k = k, n_it = n_it, df = df)))
 	
 	rownames(coef)[1:nrow(coef)] = sprintf("var %d", 1:nrow(coef))
@@ -109,8 +110,6 @@ example.sensitivity = function(wt=NULL, nsim = 200, rel_err = 1)
   else
     wt = length(b) * wt/sum(wt)
   
-  lambdas = exp(seq(-5,3,0.1))
-  
-  sensitivity.lasso(lambdas, x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim, rel_err = rel_err)
+  sensitivity.lasso(x, y, wt = wt, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = nsim, rel_err = rel_err)
   
 }

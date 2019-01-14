@@ -63,23 +63,15 @@ pg_optim = function(x, f, df, pg, ts) {
 #' @export
 
 cd_optim = function(x, f, x_it, n_it = 100) {
-  fx = f(x)
-  x.best = x
-  fx.best = fx
   for (j in 1:n_it) {
     x.last = x
     for(i in 1:length(x)) {
       x[i] = x_it(x, i)
     }
-    fx = f(x)
-    if(fx < fx.best) {
-      x.best = x
-      fx.best = fx
-    }
     if(sum(abs(x.last - x)) < 0.0000001)
       break
   }
-  x.best
+  x
 }
 
 

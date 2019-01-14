@@ -4,7 +4,7 @@
 \alias{lasso_sg}
 \title{Coefficient path (sg)}
 \usage{
-lasso_sg(lambdas, x, y, beta0, ts, wt, ...)
+lasso_sg(lambdas, x, y, ts, wt, ...)
 }
 \arguments{
 \item{lambdas}{Values of the penalty term}
@@ -12,8 +12,6 @@ lasso_sg(lambdas, x, y, beta0, ts, wt, ...)
 \item{x}{Predictors}
 
 \item{y}{Response}
-
-\item{beta0}{Initial guess of the regression coefficients}
 
 \item{ts}{Stepsize for optimization method}
 

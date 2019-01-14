@@ -84,17 +84,17 @@ square_lasso_df = function(lambda, x, y, beta, wt)
 #' @param lambda Penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @return The function returns the coefficient of the predictors.
 #' @export
 
-lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
+lasso_optim_sg = function(lambda, x, y, ts, wt) {
   if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
      wt = rep(1, ncol(x))
   else wt = ncol(x) * wt/sum(wt)
   
+  beta0 = as.matrix(rep(0, ncol(x)))
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
   df = function(beta) square_lasso_df(lambda, x, y, beta, wt)
   sg_optim(x = beta0, f = f, df = df, ts = ts)
@@ -106,17 +106,17 @@ lasso_optim_sg = function(lambda, x, y, beta0, ts, wt) {
 #' @param lambda Penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @return The function returns the coefficient of the predictors.
 #' @export
 
-lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
+lasso_optim_pg = function(lambda, x, y, ts, wt) {
   if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
      wt = rep(1, ncol(x))
   else wt = ncol(x) * wt/sum(wt)
   
+  beta0 = as.matrix(rep(0, ncol(x)))
   f = function(beta) square_f(x, y, beta)
   df = function(beta) square_df(x, y, beta)
   pg = lasso_p(lambda, wt)
@@ -129,17 +129,17 @@ lasso_optim_pg = function(lambda, x, y, beta0, ts, wt) {
 #' @param lambda Penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @return The function returns the coefficient of the predictors.
 #' @export
 
-lasso_optim_cd = function(lambda, x, y, beta0, n_it = 100, wt){
+lasso_optim_cd = function(lambda, x, y, n_it = 100, wt){
   if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
      wt = rep(1, ncol(x))
   else wt = ncol(x) * wt/sum(wt)
   
+  beta0 = as.matrix(rep(0, ncol(x)))
   s = soft(lambda, wt)
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
   v = function(i, beta) st_f(i, x, y, beta)
@@ -153,14 +153,14 @@ lasso_optim_cd = function(lambda, x, y, beta0, n_it = 100, wt){
 #' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @return The function returns the coefficient of the predictors for each lambda.
 #' @export
 
-lasso_sg = function(lambdas, x, y, beta0, ts, wt, ...) {
-  betas = lapply(lambdas, function(lambda) lasso_optim_sg(lambda, x, y, beta0, ts, wt))
+lasso_sg = function(lambdas, x, y, ts, wt, ...) {
+  beta0 = as.matrix(rep(0, ncol(x)))
+  betas = lapply(lambdas, function(lambda) lasso_optim_sg(lambda, x, y, ts, wt))
   return(betas)
 }
 
@@ -170,14 +170,14 @@ lasso_sg = function(lambdas, x, y, beta0, ts, wt, ...) {
 #' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @return The function returns the coefficient of the predictors for each lambda.
 #' @export
 
-lasso_pg = function(lambdas, x, y, beta0, ts, wt, ...) {
-  betas = lapply(lambdas, function(lambda) lasso_optim_pg(lambda, x, y, beta0, ts, wt))
+lasso_pg = function(lambdas, x, y, ts, wt, ...) {
+  beta0 = as.matrix(rep(0, ncol(x)))
+  betas = lapply(lambdas, function(lambda) lasso_optim_pg(lambda, x, y, ts, wt))
   return(betas)
 }
 
@@ -187,7 +187,6 @@ lasso_pg = function(lambdas, x, y, beta0, ts, wt, ...) {
 #' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100.
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @return The function returns the coefficient of the predictors for each lambda.
@@ -195,7 +194,7 @@ lasso_pg = function(lambdas, x, y, beta0, ts, wt, ...) {
 
 lasso_cd = function(lambdas, x, y, n_it=100, wt, ...){
   beta0 = as.matrix(rep(0, ncol(x)))
-  betas = lapply(lambdas, function(lambda) lasso_optim_cd(lambda, x, y, beta0, n_it, wt))
+  betas = lapply(lambdas, function(lambda) lasso_optim_cd(lambda, x, y, n_it, wt))
   return(betas)
 }
 
@@ -205,13 +204,12 @@ lasso_cd = function(lambdas, x, y, n_it=100, wt, ...){
 #' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
 
-lasso_sg_plot = function(lambdas, x, y, beta0, ts, wt) {
-  betas = lasso_sg(lambdas, x, y, beta0, ts, wt)
+lasso_sg_plot = function(lambdas, x, y, ts, wt) {
+  betas = lasso_sg(lambdas, x, y, ts, wt)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
     type = "l", lty = 1,
@@ -225,13 +223,12 @@ lasso_sg_plot = function(lambdas, x, y, beta0, ts, wt) {
 #' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
 
-lasso_pg_plot = function(lambdas, x, y, beta0, ts, wt) {
-  betas = lasso_pg(lambdas, x, y, beta0, ts, wt)
+lasso_pg_plot = function(lambdas, x, y, ts, wt) {
+  betas = lasso_pg(lambdas, x, y, ts, wt)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
     type = "l", lty = 1,
@@ -245,7 +242,6 @@ lasso_pg_plot = function(lambdas, x, y, beta0, ts, wt) {
 #' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
-#' @param beta0 Initial guess of the regression coefficients
 #' @param n_it Number of iterations. Default value 100
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
@@ -276,11 +272,12 @@ example_lasso_1 = function(wt = NULL)
   b = as.matrix(c(-3,0,3))
   er = as.matrix(rnorm(3000))
   y = x %*% b + er
-  lambdas = exp(seq(-5,2,0.2))
-  beta0 = as.matrix(rep(0,3))
+  lmax = 1/nrow(x)*max(abs(t(x)%*%y))
+  lambdas = exp(seq(-5, log(lmax), length.out = 51))
   ts = opt_ts(0.1, 1000, 1000)
-  lasso_sg_plot(lambdas, x, y, beta0, ts, wt)
-  lasso_pg_plot(lambdas, x, y, beta0, ts, wt)
+
+  lasso_sg_plot(lambdas, x, y, ts, wt)
+  lasso_pg_plot(lambdas, x, y, ts, wt)
   lasso_cd_plot(lambdas, x, y, 100, wt)
 }
 
@@ -301,10 +298,11 @@ example_lasso_2 = function(wt = NULL)
   b = as.matrix(rep(c(-3,-2,-1,1,2,3), 4))
   er = as.matrix(rnorm(50))
   y = x %*% b + er
-  lambdas = exp(seq(-5,2,0.2))
-  beta0 = b
-  ts = opt_ts(0.1, 1000, 1000)
-  lasso_sg_plot(lambdas, x, y, beta0, ts, wt)
-  lasso_pg_plot(lambdas, x, y, beta0, ts, wt)
+  lmax = 1/nrow(x)*max(abs(t(x)%*%y))
+  lambdas = exp(seq(-5, log(lmax), length.out = 51))
+  ts = opt_ts(0.005, 1000, 1000)
+
+  lasso_sg_plot(lambdas, x, y, ts, wt)
+  lasso_pg_plot(lambdas, x, y, ts, wt)
   lasso_cd_plot(lambdas, x, y, 100, wt)
 }

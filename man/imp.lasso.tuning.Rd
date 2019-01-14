@@ -4,12 +4,10 @@
 \alias{imp.lasso.tuning}
 \title{Tuning of LASSO coefficients bounds}
 \usage{
-imp.lasso.tuning(lambdas, x, y, wtl, wtu, ts = NULL,
-  method = lasso_optim_cd, n_it = 10)
+imp.lasso.tuning(x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd,
+  n_it = 10)
 }
 \arguments{
-\item{lambdas}{values of the penalty parameter}
-
 \item{x}{predictors}
 
 \item{y}{response}
@@ -23,6 +21,8 @@ imp.lasso.tuning(lambdas, x, y, wtl, wtu, ts = NULL,
 \item{method}{lasso optimization function.  Three different methods are available to use. method = c(lasso_optim_cd, lasso_optim_sg, lasso_optim_pg). Defaults to lasso_optim_cd}
 
 \item{n_it}{number of iteration for lasso_optim_cd method. Default value is 10.}
+
+\item{lambdas}{values of the penalty parameter}
 }
 \value{
 The function returns the lower and upper estimates of LASSO coefficients.
