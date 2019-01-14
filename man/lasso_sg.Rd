@@ -16,5 +16,5 @@ lasso_sg(x, y, ts, wt, ...)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-Coefficient path (sg)
+This function is to be used for getting co-efficient path using sub-gradient optimization
 }

@@ -7,5 +7,5 @@
 soft(lambda, wt)
 }
 \description{
-Soft threshold operator
+For internal use
 }

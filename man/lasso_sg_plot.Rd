@@ -16,5 +16,5 @@ lasso_sg_plot(x, y, ts, wt)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-sg Plot
+Plots the co-efficient path using sub-gradient optimization
 }

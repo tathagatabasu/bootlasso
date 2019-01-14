@@ -147,7 +147,7 @@ lasso_sg = function(x, y, ts, wt, ...) {
   lambdas = c(0)
   j = 1
   h = max(abs(solve(t(x) %*% x) %*% (t(x) %*% y)) + 5) / 50
-  while (sum(abs(betalist[[j]])) > 0.0001) {
+  while (sum(abs(betalist[[j]])) > 0.001) {
     j = j + 1
     lambdas[j] = exp(-5 + h * j)
     betalist[[j]] = lasso_optim_sg(lambdas[j], x, y, beta0, ts, wt)
@@ -175,7 +175,7 @@ lasso_pg = function(x, y, ts, wt, ...) {
   lambdas = c(0)
   j = 1
   h = max(abs(solve(t(x) %*% x) %*% (t(x) %*% y)) + 5) / 50
-  while (sum(abs(betalist[[j]])) > 0.0001) {
+  while (sum(abs(betalist[[j]])) > 0.001) {
     j = j + 1
     lambdas[j] = exp(-5 + h * j)
     betalist[[j]] = lasso_optim_pg(lambdas[j], x, y, beta0, ts, wt)
@@ -203,7 +203,7 @@ lasso_cd = function(x, y, n_it=100, wt, ...){
   lambdas = c(0)
   j = 1
   h = max(abs(solve(t(x) %*% x) %*% (t(x) %*% y)) + 5) / 50
-  while (sum(abs(betalist[[j]])) > 0.0001) {
+  while (sum(abs(betalist[[j]])) > 0.001) {
     j = j + 1
     lambdas[j] = exp(-5 + h * j)
     betalist[[j]] = lasso_optim_cd(lambdas[j], x, y, beta0, n_it = 100, wt)

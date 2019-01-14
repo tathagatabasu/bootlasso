@@ -16,5 +16,5 @@ lasso_cd_plot(x, y, n_it = 100, wt)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-cd plot
+Plots the co-efficient path using co-ordinate descent optimization
 }

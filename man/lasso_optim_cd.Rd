@@ -2,7 +2,7 @@
 % Please edit documentation in R/coeff_lasso.R
 \name{lasso_optim_cd}
 \alias{lasso_optim_cd}
-\title{LASSO optimization using coordinate descent}
+\title{LASSO optimization using co-ordinate descent}
 \usage{
 lasso_optim_cd(lambda, x, y, beta0, n_it = 100, wt)
 }
@@ -20,5 +20,5 @@ lasso_optim_cd(lambda, x, y, beta0, n_it = 100, wt)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-LASSO optimization using coordinate descent
+This function is to be used for solving LASSO optimization using co-ordinate descent method
 }

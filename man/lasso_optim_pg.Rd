@@ -20,5 +20,5 @@ lasso_optim_pg(lambda, x, y, beta0, ts, wt)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-LASSO optimization (proximal gradient)
+This function is to be used for solving LASSO optimization using proximal-gradient method
 }

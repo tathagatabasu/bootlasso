@@ -7,5 +7,5 @@
 square_lasso_f(lambda, x, y, beta, wt)
 }
 \description{
-LASSO objective
+For internal use
 }

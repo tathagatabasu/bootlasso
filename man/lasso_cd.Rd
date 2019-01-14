@@ -16,5 +16,5 @@ lasso_cd(x, y, n_it = 100, wt, ...)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-Coefficient path (cd)
+This function is to be used for getting co-efficient path using co-ordinate descent optimization
 }

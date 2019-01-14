@@ -16,5 +16,5 @@ lasso_pg_plot(x, y, ts, wt)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-pg plot
+Plots the co-efficient path using proximal-gradient optimization
 }

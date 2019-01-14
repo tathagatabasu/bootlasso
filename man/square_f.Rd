@@ -7,5 +7,5 @@
 square_f(x, y, beta)
 }
 \description{
-OLS term
+For internal use
 }

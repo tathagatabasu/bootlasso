@@ -16,5 +16,5 @@ lasso_pg(x, y, ts, wt, ...)
 \item{wt}{weights for the coefficients of weighted LASSO.}
 }
 \description{
-Coefficient path (pg)
+This function is to be used for getting co-efficient path using proximal-gradient optimization
 }

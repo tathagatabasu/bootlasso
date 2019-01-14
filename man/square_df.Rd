@@ -7,5 +7,5 @@
 square_df(x, y, beta)
 }
 \description{
-OLS differential
+For internal use
 }
