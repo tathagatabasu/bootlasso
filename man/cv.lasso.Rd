@@ -4,12 +4,10 @@
 \alias{cv.lasso}
 \title{Cross-validation}
 \usage{
-cv.lasso(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd,
-  k = 5, n_it = 10, df = NULL)
+cv.lasso(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5,
+  n_it = 10, df = NULL)
 }
 \arguments{
-\item{lambdas}{values of the penalty parameter}
-
 \item{x}{predictors}
 
 \item{y}{response}

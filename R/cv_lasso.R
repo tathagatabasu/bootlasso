@@ -10,7 +10,6 @@
 #' Cross-validation
 #' 
 #' Cross-validation for lasso
-#' @param lambdas values of the penalty parameter
 #' @param x predictors
 #' @param y response
 #' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
@@ -26,17 +25,17 @@
 #' \item{index}{Index of the minimum mean-squared error (for internal use)}
 #' @export
 
-cv.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL)
+cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL)
 {
   data.partition = cv.random.partition(x, y, k = k)
-  lambdas = as.matrix(lambdas)
+  lmax = 1/nrow(x)*max(abs(t(x)%*%y))
+  lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   colnames(lambdas) = "lambda"
-  beta0 = rep(0, ncol(x))
   
-  if ((is.null(wt) == T)|(length(wt) != length(beta0)))
-    wt = rep(1, length(beta0))
+  if ((is.null(wt) == T)|(length(wt) != ncol(x)))
+    wt = rep(1, ncol(x))
   else
-    wt = length(beta0) * wt / sum(wt)
+    wt = ncol(x) * wt / sum(wt)
   
   # function for training
   
@@ -45,7 +44,7 @@ cv.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 
     traindata = as.matrix(apply(data.partition[,,-i], 2, rbind))
     x = traindata[,2:ncol(traindata)]
     y = traindata[,1]
-    model = method(lambdas = lambdas, x = x, y = y, beta0 = beta0, ts = ts, n_it = n_it, wt = wt)
+    model = method(lambdas = lambdas, x = x, y = y, ts = ts, n_it = n_it, wt = wt)
   }
   model = sapply(1:k, cv.train, simplify = "array")
   model = array(unlist(model), dim = c(ncol(x), length(lambdas), k))
@@ -149,41 +148,6 @@ cv.mse = function(original, estimate)
   return(error)
 }
 
-###################################################################################################
-
-#' Normalizing the data
-#' 
-#' Function for normalizing the dataset
-#' @param x predictor
-#' @param y response
-#' @return The function returns following list of outputs
-#' \item{x}{normalized predictor}
-#' \item{y}{normalized response}
-#' @export
-
-normalize = function(x, y)
-{
-  # predictor
-  x = as.matrix(x)
-  design = as.matrix(rep(1, nrow(x)))
-  mean.x = colMeans(x)
-  x = x - design %*% mean.x
-  sd.x = apply(x, 2, sd)
-  x = x / (design %*% sd.x)
-  colnames(x)[1:ncol(x)] = sprintf("var %d", 1:ncol(x))
-  
-  # response
-  y = as.matrix(y)
-  design = as.matrix(rep(1, nrow(y)))
-  mean.y = colMeans(y)
-  y = y - design %*% mean.y
-  sd.y = sd(y)
-  y = y / (design %*% sd.y)
-  colnames(y) = "y"
-  
-  output = list("x" = x, "y" = y)
-  return(output)
-}
 
 ###################################################################################################
 
@@ -258,9 +222,8 @@ example.cv = function(wt=NULL)
   else
     wt = length(b) * wt/sum(wt)
   
-  lambdas = exp(seq(-5,3,0.1))
   
-  test.cv = cv.lasso(lambdas, x, y, wt = wt)
+  test.cv = cv.lasso(x, y, wt = wt)
   
   cv.plot(test.cv, main = "Cross-validation error (LASSO using co-ordinate descent)")
   

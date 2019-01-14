@@ -16,8 +16,6 @@ lasso_cd(lambdas, x, y, n_it = 100, wt, ...)
 \item{n_it}{Number of iterations. Default value 100.}
 
 \item{wt}{weights for the coefficients of weighted LASSO.}
-
-\item{beta0}{Initial guess of the regression coefficients}
 }
 \value{
 The function returns the coefficient of the predictors for each lambda.

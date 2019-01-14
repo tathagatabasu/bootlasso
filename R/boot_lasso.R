@@ -10,7 +10,6 @@
 #' Bootstrap for LASSO.
 #'
 #' Function for getting bootstrap estimates for LASSO.
-#' @param lambdas values of the penalty parameter
 #' @param x predictors 
 #' @param y response
 #' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
@@ -23,7 +22,7 @@
 #' @return The summary frame of the bootstrap comprising mean, median, bias, standard deviation and confidence intervals.
 #' @export
 
-boot.lasso = function(lambdas, x, y, wt = NULL, ts = NULL, 
+boot.lasso = function(x, y, wt = NULL, ts = NULL, 
                       method = lasso_cd, k = 5, n_it = 10, df = NULL, n.sim = 500)
   {
 
@@ -33,7 +32,7 @@ boot.lasso = function(lambdas, x, y, wt = NULL, ts = NULL,
   
   cv1 = function(x, y)
     {
-    data.cv.temp = cv.lasso(lambdas, x, y, wt = wt, ts = ts, 
+    data.cv.temp = cv.lasso(x, y, wt = wt, ts = ts, 
                             method = method, n_it = n_it, k = k, df =df)
     data.fitlasso = data.cv.temp$coeff[2:(ncol(x)+1)]
     
@@ -78,7 +77,7 @@ boot.lasso = function(lambdas, x, y, wt = NULL, ts = NULL,
     
     cv <- function(x, y)
       {
-      data.cv.temp = cv.lasso(lambdas, x, y, wt = wt, ts = ts, 
+      data.cv.temp = cv.lasso(x, y, wt = wt, ts = ts, 
                             method = method, n_it = n_it, k = k, df =df)
       data.fitlasso = data.cv.temp$coeff[2:(ncol(x)+1)]
       
@@ -161,9 +160,8 @@ example.boot = function(n.sim = 200)
   er = as.matrix(rnorm(50))
   y = x %*% b + er
   
-  lambdas = exp(seq(-5,2,0.1))
   
-  boot.test = boot.lasso(lambdas, x, y, n.sim = n.sim)
+  boot.test = boot.lasso(x, y, n.sim = n.sim)
   
   cat(sprintf("Least Square Model \n"))
   print(lm(y ~ x - 1))

@@ -4,12 +4,10 @@
 \alias{boot.lasso}
 \title{Bootstrap for LASSO.}
 \usage{
-boot.lasso(lambdas, x, y, wt = NULL, ts = NULL, method = lasso_cd,
-  k = 5, n_it = 10, df = NULL, n.sim = 500)
+boot.lasso(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5,
+  n_it = 10, df = NULL, n.sim = 500)
 }
 \arguments{
-\item{lambdas}{values of the penalty parameter}
-
 \item{x}{predictors}
 
 \item{y}{response}

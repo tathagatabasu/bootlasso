@@ -4,7 +4,7 @@
 \alias{lasso_optim_sg}
 \title{LASSO optimization (sub-gradient method)}
 \usage{
-lasso_optim_sg(lambda, x, y, beta0, ts, wt)
+lasso_optim_sg(lambda, x, y, ts, wt)
 }
 \arguments{
 \item{lambda}{Penalty term}
@@ -12,8 +12,6 @@ lasso_optim_sg(lambda, x, y, beta0, ts, wt)
 \item{x}{Predictors}
 
 \item{y}{Response}
-
-\item{beta0}{Initial guess of the regression coefficients}
 
 \item{ts}{Stepsize for optimization method}
 

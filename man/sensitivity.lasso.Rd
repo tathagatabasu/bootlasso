@@ -4,13 +4,10 @@
 \alias{sensitivity.lasso}
 \title{Perturbation of weights}
 \usage{
-sensitivity.lasso(lambdas, x, y, wt = NULL, ts = NULL,
-  method = lasso_cd, k = 5, n_it = 10, df = NULL, nsim = 50,
-  rel_err = 1)
+sensitivity.lasso(x, y, wt = NULL, ts = NULL, method = lasso_cd,
+  k = 5, n_it = 10, df = NULL, nsim = 50, rel_err = 1)
 }
 \arguments{
-\item{lambdas}{values of the penalty parameter}
-
 \item{x}{predictors}
 
 \item{y}{response}

@@ -23,8 +23,6 @@
 
 imp.lasso = function(lambda, x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd, n_it = 10)
 {
-	beta0 = rep(0, ncol(x))
-	
 	theta = (wtl + wtu)/2
 
 	f = function(wt)
@@ -34,7 +32,7 @@ imp.lasso = function(lambda, x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd,
 		else wt = ncol(x) * wt/sum(wt)
     
 		beta = method(lambda = lambda,
-		x, y, beta0 = beta0, n_it = n_it, wt)
+		x, y, n_it = n_it, wt)
 		return (beta[i])
 	}
 
@@ -78,8 +76,10 @@ imp.lasso = function(lambda, x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd,
 #' @return The function returns the lower and upper estimates of LASSO coefficients.
 #' @export
 
-imp.lasso.tuning = function(lambdas, x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd, n_it = 10)
+imp.lasso.tuning = function(x, y, wtl, wtu, ts = NULL, method = lasso_optim_cd, n_it = 10)
 {
+	lmax = 1/nrow(x)*max(abs(t(x)%*%y))
+	lambdas = exp(seq(-5, log(lmax), length.out = 51))
 	betabounds = lapply(1:length(lambdas), function(i) imp.lasso(lambdas[i], x, y, wtl, wtu, ts = ts, method = method, n_it = n_it))
 	error = matrix(ncol = 1, nrow = length(lambdas))
 	
@@ -113,11 +113,10 @@ example.imp = function()
 	er = rnorm(100)
 	y = x%*%b + er
 
-	lambdas = exp(seq(-3, 2, .5))
 	wtl = rep(1/2, ncol(x))
 	wtu = rep(1, ncol(x))
 
-	ex = imp.lasso.tuning(lambdas, x, y, wtl, wtu)
+	ex = imp.lasso.tuning(x, y, wtl, wtu)
 	
 	print(ex$maxerror)
 }
