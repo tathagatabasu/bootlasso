@@ -216,8 +216,10 @@ lasso_cd_plot = function(x, y, n_it = 100, wt) {
     main = "Co-ordinate Descent Method")
 }
 
-#' Examples 1
-#' @import glmnet
+#' Example
+#'
+#' Example 1 of LASSO using different optimization techniques
+#' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
 #' @export
 example_lasso_1 = function(wt = NULL) 
 {
@@ -235,8 +237,10 @@ example_lasso_1 = function(wt = NULL)
   lasso_pg_plot(x, y, ts, wt)
   lasso_cd_plot(x, y, 100, wt)
 }
-#' Examples 2
-#' @import glmnet
+#' Example
+#'
+#' Example 1 of LASSO using different optimization techniques
+#' @param wt weights for the coefficients of weighted LASSO. Defaults to NULL
 #' @export
 example_lasso_2 = function(wt = NULL)
 {
