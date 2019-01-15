@@ -27,9 +27,6 @@
 
 cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL)
 {
-  x = scale(x, center = TRUE, scale = F)
-  y = scale(y, center = TRUE, scale = F)
-
   data.partition = cv.random.partition(x, y, k = k)
   lmax = 1/nrow(x)*max(abs(t(x)%*%y))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
