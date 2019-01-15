@@ -201,14 +201,19 @@ lasso_cd = function(lambdas, x, y, n_it=100, wt, ...){
 #' sg Plot
 #'
 #' Plots the co-efficient path using sub-gradient optimization 
-#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
 
-lasso_sg_plot = function(lambdas, x, y, ts, wt) {
+lasso_sg_plot = function(x, y, ts, wt = NULL) {
+  
+  #x = scale(x, scale = F)
+  #y = scale(y, scale = F)
+  lmax = max(abs(t(x) %*% y / diag(t(x) %*% x)))
+  lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
+  
   betas = lasso_sg(lambdas, x, y, ts, wt)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
@@ -220,14 +225,19 @@ lasso_sg_plot = function(lambdas, x, y, ts, wt) {
 #' pg plot
 #'
 #' Plots the co-efficient path using proximal-gradient optimization 
-#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param ts Stepsize for optimization method
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
 
-lasso_pg_plot = function(lambdas, x, y, ts, wt) {
+lasso_pg_plot = function(x, y, ts, wt = NULL) {
+  
+  #x = scale(x, scale = F)
+  #y = scale(y, scale = F)
+  lmax = max(abs(t(x) %*% y / diag(t(x) %*% x)))
+  lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
+  
   betas = lasso_pg(lambdas, x, y, ts, wt)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
@@ -239,14 +249,19 @@ lasso_pg_plot = function(lambdas, x, y, ts, wt) {
 #' cd plot
 #'
 #' Plots the co-efficient path using co-ordinate descent optimization 
-#' @param lambdas Values of the penalty term
 #' @param x Predictors
 #' @param y Response
 #' @param n_it Number of iterations. Default value 100
 #' @param wt weights for the coefficients of weighted LASSO.
 #' @export
 
-lasso_cd_plot = function(lambdas, x, y, n_it = 100, wt) {
+lasso_cd_plot = function(x, y, n_it = 100, wt = NULL) {
+
+  #x = scale(x, scale = F)
+  #y = scale(y, scale = F)
+  lmax = max(abs(t(x) %*% y / diag(t(x) %*% x)))
+  lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
+  
   betas = lasso_cd(lambdas, x, y, n_it, wt)
   matplot(
     log(lambdas), t(do.call(cbind, betas)),
@@ -272,13 +287,11 @@ example_lasso_1 = function(wt = NULL)
   b = as.matrix(c(-3,0,3))
   er = as.matrix(rnorm(3000))
   y = x %*% b + er
-  lmax = 1/nrow(x)*max(abs(t(x)%*%y))
-  lambdas = exp(seq(-5, log(lmax), length.out = 51))
-  ts = opt_ts(0.1, 1000, 1000)
+  ts = opt_ts(0.005, 1000, 1000)
 
-  lasso_sg_plot(lambdas, x, y, ts, wt)
-  lasso_pg_plot(lambdas, x, y, ts, wt)
-  lasso_cd_plot(lambdas, x, y, 100, wt)
+  lasso_sg_plot(x, y, ts, wt)
+  lasso_pg_plot(x, y, ts, wt)
+  lasso_cd_plot(x, y, 100, wt)
 }
 
 #' Example
@@ -298,11 +311,9 @@ example_lasso_2 = function(wt = NULL)
   b = as.matrix(rep(c(-3,-2,-1,1,2,3), 4))
   er = as.matrix(rnorm(50))
   y = x %*% b + er
-  lmax = 1/nrow(x)*max(abs(t(x)%*%y))
-  lambdas = exp(seq(-5, log(lmax), length.out = 51))
   ts = opt_ts(0.005, 1000, 1000)
 
-  lasso_sg_plot(lambdas, x, y, ts, wt)
-  lasso_pg_plot(lambdas, x, y, ts, wt)
-  lasso_cd_plot(lambdas, x, y, 100, wt)
+  lasso_sg_plot(x, y, ts, wt)
+  lasso_pg_plot(x, y, ts, wt)
+  lasso_cd_plot(x, y, 100, wt)
 }

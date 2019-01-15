@@ -28,7 +28,9 @@
 cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it = 10, df = NULL)
 {
   data.partition = cv.random.partition(x, y, k = k)
-  lmax = 1/nrow(x)*max(abs(t(x)%*%y))
+  x = scale(x, scale = F)
+  y = scale(y, scale = F)
+  lmax = max(abs(t(x) %*% y / diag(t(x)%*%x)))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   colnames(lambdas) = "lambda"
   
@@ -144,28 +146,6 @@ cv.mse = function(original, estimate)
 
 ###################################################################################################
 
-#' LASSO plot
-#'
-#' Plots the LASSO coefficient path obtained from cross-validation.
-#' @param cv model obtained by doing cross-validation.
-#' @param main Title of the plot.
-#' @export
-
-lasso.plot = function(cv, main=NULL)
-{
-  y.lim.up = max(abs(cv$model[2:nrow(cv$model),]))
-  y.lim.bel = min(cv$model[2:nrow(cv$model),])
-  x = cv$model[1,]
-  
-  matplot(log(cv$model[1,]), t(cv$model[2:nrow(cv$model),]), type = "l", 
-          xlab = expression(paste(log(lambda))),
-          ylab = "Coefficients", ylim = c(y.lim.bel, y.lim.up),
-          main = main,
-          lty = 1, col = 1:6)
-  abline(h = 0, col = "black", lty = 2)
-  abline(v = log(x[max(cv$index)]), lty = 2)
-}
-
 #' Cross-validation plot
 #'
 #' Plots the cross-valiadtion curve
@@ -219,9 +199,9 @@ example.cv = function(wt=NULL)
   test.cv = cv.lasso(x, y, wt = wt)
   
   cv.plot(test.cv, main = "Cross-validation error (LASSO using co-ordinate descent)")
-  
-  lasso.plot(test.cv, main = "LASSO using co-ordinate descent")
-  
+
+  lasso_cd_plot(x, y, wt = wt)
+    
   cat(sprintf("Least Square Model \n"))
   print(lm(y ~ x - 1))
   

@@ -4,11 +4,9 @@
 \alias{lasso_sg_plot}
 \title{sg Plot}
 \usage{
-lasso_sg_plot(lambdas, x, y, ts, wt)
+lasso_sg_plot(x, y, ts, wt = NULL)
 }
 \arguments{
-\item{lambdas}{Values of the penalty term}
-
 \item{x}{Predictors}
 
 \item{y}{Response}
