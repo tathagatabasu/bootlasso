@@ -93,9 +93,7 @@ lasso_optim_sg = function(lambda, x, y, ts, wt) {
   if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
      wt = rep(1, ncol(x))
   else wt = ncol(x) * wt/sum(wt)
-  x = scale(x, center = TRUE, scale = F)
-  y = scale(y, center = TRUE, scale = F)
-
+  
   beta0 = as.matrix(rep(0, ncol(x)))
   f = function(beta) square_lasso_f(lambda, x, y, beta, wt)
   df = function(beta) square_lasso_df(lambda, x, y, beta, wt)
@@ -117,8 +115,6 @@ lasso_optim_pg = function(lambda, x, y, ts, wt) {
   if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
      wt = rep(1, ncol(x))
   else wt = ncol(x) * wt/sum(wt)
-  x = scale(x, center = TRUE, scale = F)
-  y = scale(y, center = TRUE, scale = F)
   
   beta0 = as.matrix(rep(0, ncol(x)))
   f = function(beta) square_f(x, y, beta)
@@ -142,8 +138,6 @@ lasso_optim_cd = function(lambda, x, y, n_it = 100, wt){
   if ((is.null(wt) == T) | (length(wt) != ncol(x))) 
      wt = rep(1, ncol(x))
   else wt = ncol(x) * wt/sum(wt)
-  x = scale(x, center = TRUE, scale = F)
-  y = scale(y, center = TRUE, scale = F)
   
   beta0 = as.matrix(rep(0, ncol(x)))
   s = soft(lambda, wt)
