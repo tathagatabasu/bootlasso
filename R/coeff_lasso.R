@@ -209,9 +209,7 @@ lasso_cd = function(lambdas, x, y, n_it=100, wt, ...){
 
 lasso_sg_plot = function(x, y, ts, wt = NULL) {
   
-  #x = scale(x, scale = F)
-  #y = scale(y, scale = F)
-  lmax = max(abs(t(x) %*% y / diag(t(x) %*% x)))
+  lmax = max(max(abs(t(x) %*% y / diag(t(x)%*%x))), max(abs(t(x) %*% y / nrow(x))))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   
   betas = lasso_sg(lambdas, x, y, ts, wt)
@@ -233,9 +231,7 @@ lasso_sg_plot = function(x, y, ts, wt = NULL) {
 
 lasso_pg_plot = function(x, y, ts, wt = NULL) {
   
-  #x = scale(x, scale = F)
-  #y = scale(y, scale = F)
-  lmax = max(abs(t(x) %*% y / diag(t(x) %*% x)))
+  lmax = max(max(abs(t(x) %*% y / diag(t(x)%*%x))), max(abs(t(x) %*% y / nrow(x))))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   
   betas = lasso_pg(lambdas, x, y, ts, wt)
@@ -257,9 +253,7 @@ lasso_pg_plot = function(x, y, ts, wt = NULL) {
 
 lasso_cd_plot = function(x, y, n_it = 100, wt = NULL) {
 
-  #x = scale(x, scale = F)
-  #y = scale(y, scale = F)
-  lmax = max(abs(t(x) %*% y / diag(t(x) %*% x)))
+  lmax = max(max(abs(t(x) %*% y / diag(t(x)%*%x))), max(abs(t(x) %*% y / nrow(x))))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   
   betas = lasso_cd(lambdas, x, y, n_it, wt)
