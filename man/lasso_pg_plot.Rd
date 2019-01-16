@@ -4,11 +4,9 @@
 \alias{lasso_pg_plot}
 \title{pg plot}
 \usage{
-lasso_pg_plot(lambdas, x, y, ts, wt)
+lasso_pg_plot(x, y, ts, wt = NULL)
 }
 \arguments{
-\item{lambdas}{Values of the penalty term}
-
 \item{x}{Predictors}
 
 \item{y}{Response}

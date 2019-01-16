@@ -4,11 +4,9 @@
 \alias{lasso_cd_plot}
 \title{cd plot}
 \usage{
-lasso_cd_plot(lambdas, x, y, n_it = 100, wt)
+lasso_cd_plot(x, y, n_it = 100, wt = NULL)
 }
 \arguments{
-\item{lambdas}{Values of the penalty term}
-
 \item{x}{Predictors}
 
 \item{y}{Response}
