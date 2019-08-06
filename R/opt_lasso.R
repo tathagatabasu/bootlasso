@@ -71,6 +71,7 @@ cd_optim = function(x, f, x_it, n_it = 100) {
     if(sum(abs(x.last - x)) < 0.00001)
       break
   }
+  x[abs(x) < 0.00001] = 0
   x
 }
 
