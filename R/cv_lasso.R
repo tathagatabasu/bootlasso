@@ -30,6 +30,7 @@ cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it =
   data.partition = cv.random.partition(x, y, k = k)
   x = scale(x, scale = F)
   y = scale(y, scale = F)
+
   lmax = max(max(abs(t(x) %*% y / diag(t(x)%*%x))), max(abs(t(x) %*% y / nrow(x))))
   lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
   colnames(lambdas) = "lambda"
