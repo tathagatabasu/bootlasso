@@ -32,7 +32,7 @@ sensitivity.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 
 		wt = ncol(x) * wt / sum(wt)
 	
 	lmax = 1/nrow(x)*max(abs(t(x)%*%y))
-	lambdas = exp(seq(-5, log(lmax), length.out = 51))
+	lambdas = exp(seq(-5, log(lmax), length.out = 101))
 	wts = t(matrix(rep(wt, nsim), ncol = nsim) + wt * (rel_err / 100) * matrix(rnorm(nsim * ncol(x)), ncol = nsim))
 	
 	sensty= function(x, y, wt, ts, method, k, n_it, df)

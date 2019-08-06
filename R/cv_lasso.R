@@ -31,7 +31,7 @@ cv.lasso = function(x, y, wt = NULL, ts = NULL, method = lasso_cd, k = 5, n_it =
   x = scale(x, scale = F)
   y = scale(y, scale = F)
   lmax = max(abs(t(x) %*% y / diag(t(x)%*%x)))
-  lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 51)))
+  lambdas = as.matrix(exp(seq(-5, log(lmax), length.out = 101)))
   colnames(lambdas) = "lambda"
   
 
